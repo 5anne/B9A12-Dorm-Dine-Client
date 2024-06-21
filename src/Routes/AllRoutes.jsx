@@ -4,6 +4,8 @@ import Home from "../Components/Home/Home";
 import MealDetails from "../Components/Home/MealCategory/MealDetails";
 import CheckOut from "../Components/Home/MemberShip/CheckOut";
 import Meals from "../Components/Meals/Meals";
+import Login from "../Components/Pages/Login";
+import Register from "../Components/Pages/Register";
 
 
 const AllRoutes = createBrowserRouter([
@@ -27,6 +29,14 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/meals",
                 element: <Meals></Meals>
+            },
+            {
+                path: "/login",
+                element: <Login></Login>
+            },
+            {
+                path: "/register",
+                element: <Register></Register>
             }
         ]
     },
