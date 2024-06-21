@@ -4,6 +4,8 @@ import Navbar from "../Shared/Navbar";
 import Banner from "./Banner";
 import DietBlogs from "./DietBlog/DietBlogs";
 import MealCategory from "./MealCategory/MealCategory";
+import Motto from "./Motto";
+import MemberShip from "./MemberShip/MemberShip";
 
 
 const Home = () => {
@@ -15,6 +17,8 @@ const Home = () => {
             <Navbar></Navbar>
             <Banner></Banner>
             <MealCategory></MealCategory>
+            <MemberShip></MemberShip>
+            <Motto></Motto>
             <DietBlogs></DietBlogs>
             <Footer></Footer>
         </div>
