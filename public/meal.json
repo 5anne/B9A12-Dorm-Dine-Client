@@ -1,0 +1,206 @@
+[
+    {
+        "id": 1,
+        "title": "Tandoori Chicken with Basmati Rice",
+        "image": "https://i.postimg.cc/vBPKY2dV/Herbed-Basmati-Rice-with-Grilled-Tndoori-Chicken-011.jpg",
+        "rating": 4.8,
+        "price": 8.50,
+        "admin": "Royal Kitchen",
+        "description": "A classic Indian dish featuring marinated chicken cooked in a tandoor oven and served with fragrant basmati rice.",
+        "ingredients": [
+            "Chicken",
+            "Yogurt",
+            "Ginger-garlic paste",
+            "Lemon juice",
+            "Tandoori masala",
+            "Basmati rice",
+            "Spices (cumin, coriander, etc.)"
+        ],
+        "post_time": "2024-06-19T10:30:00Z",
+        "type": "Lunch"
+    },
+    {
+        "id": 2,
+        "title": "Greek Salad with Feta Cheese",
+        "image": "https://i.postimg.cc/g0H55kS4/R-2.jpg",
+        "rating": 4.2,
+        "price": 6.99,
+        "admin": "Fresh & Healthy",
+        "description": "A refreshing and healthy salad with chopped tomatoes, cucumbers, olives, onions, feta cheese, and a simple vinaigrette dressing.",
+        "ingredients": [
+            "Tomatoes",
+            "Cucumbers",
+            "Olives",
+            "Red onion",
+            "Feta cheese",
+            "Olive oil",
+            "Lemon juice",
+            "Dried oregano",
+            "Salt & pepper"
+        ],
+        "post_time": "2024-06-20T15:15:00Z",
+        "type": "Lunch"
+    },
+    {
+        "id": 3,
+        "title": "Beef Burger with Fries",
+        "image": "https://i.postimg.cc/3RwLcjDJ/OIP-4.jpg",
+        "rating": 4.5,
+        "price": 9.95,
+        "admin": "The Patty Palace",
+        "description": "A juicy all-beef patty served on a toasted bun with lettuce, tomato, onion, cheese (optional), and a side of crispy fries.",
+        "ingredients": [
+            "Ground beef",
+            "Hamburger bun",
+            "Lettuce",
+            "Tomato",
+            "Onion",
+            "Cheese (optional)",
+            "Burger sauce",
+            "Potatoes (for fries)",
+            "Vegetable oil (for frying)"
+        ],
+        "post_time": "2024-06-18T12:00:00Z",
+        "type": "Dinner"
+    },
+    {
+        "id": 4,
+        "title": "Penne Arrabbiata",
+        "image": "https://i.postimg.cc/vTVC07px/OIP-5.jpg",
+        "rating": 4.3,
+        "price": 7.99,
+        "admin": "Zesty Italian",
+        "description": "A classic Italian pasta dish with spicy tomato sauce, parmesan cheese, and fresh basil.",
+        "ingredients": [
+            "Penne pasta",
+            "Tomato sauce",
+            "Garlic",
+            "Red pepper flakes",
+            "Parmesan cheese",
+            "Fresh basil",
+            "Olive oil"
+        ],
+        "post_time": "2024-06-21T08:00:00Z",
+        "type": "Lunch",
+        "dietary_restrictions": [
+            "vegetarian"
+        ],
+        "portion_size": "medium"
+    },
+    {
+        "id": 5,
+        "title": "Chicken Caesar Salad",
+        "image": "https://i.postimg.cc/L6fMDRpQ/OIP-6.jpg",
+        "rating": 4.1,
+        "price": 6.50,
+        "admin": "Fresh & Healthy",
+        "description": "A hearty salad with grilled chicken, romaine lettuce, croutons, parmesan cheese, and Caesar dressing.",
+        "ingredients": [
+            "Grilled chicken breast",
+            "Romaine lettuce",
+            "Croutons",
+            "Parmesan cheese",
+            "Caesar dressing",
+            "Olive oil",
+            "Lemon juice"
+        ],
+        "post_time": "2024-06-20T12:00:00Z",
+        "type": "Breakfast",
+        "is_vegetarian": false,
+        "portion_size": "large"
+    },
+    {
+        "id": 6,
+        "title": "Vegetable Curry with Brown Rice",
+        "image": "https://i.postimg.cc/T1zC1ZNp/OIP-7.jpg",
+        "rating": 4.7,
+        "price": 8.25,
+        "admin": "Spice Delight",
+        "description": "A flavorful vegan curry with a variety of vegetables simmered in a fragrant coconut milk sauce, served with brown rice.",
+        "ingredients": [
+            "Mixed vegetables (carrots, broccoli, peppers, etc.)",
+            "Coconut milk",
+            "Curry paste",
+            "Ginger",
+            "Garlic",
+            "Brown rice",
+            "Spices (cumin, coriander, turmeric, etc.)"
+        ],
+        "post_time": "2024-06-20T10:00:00Z",
+        "type": "Dinner",
+        "dietary_restrictions": [
+            "vegan",
+            "gluten-free"
+        ],
+        "portion_size": "medium"
+    },
+    {
+        "id": 7,
+        "title": "Salmon with Roasted Vegetables",
+        "image": "https://i.postimg.cc/N0NhFj6F/Salmon-Roasted-Vegetables-1024x589.jpg",
+        "rating": 4.9,
+        "price": 11.50,
+        "admin": "Healthy Eats",
+        "description": "A healthy and delicious dish featuring grilled salmon served alongside roasted vegetables like asparagus, zucchini, and cherry tomatoes.",
+        "ingredients": [
+            "Salmon fillet",
+            "Asparagus",
+            "Zucchini",
+            "Cherry tomatoes",
+            "Olive oil",
+            "Salt & pepper",
+            "Lemon wedges (optional)"
+        ],
+        "post_time": "2024-06-19T18:00:00Z",
+        "type": "Dinner",
+        "is_vegetarian": false,
+        "portion_size": "single"
+    },
+    {
+        "id": 8,
+        "title": "Chocolate Chip Cookies",
+        "image": "https://i.postimg.cc/k4MZd3LC/double-chocolate-chip-oatmeal-cookies-3-640x360.webp",
+        "rating": 4.9,
+        "price": 2.50,
+        "admin": "Sweet Treats Bakery",
+        "description": "Warm and delicious homemade chocolate chip cookies, perfect for a sweet treat.",
+        "ingredients": [
+            "All-purpose flour",
+            "Baking soda",
+            "Salt",
+            "Unsalted butter",
+            "Brown sugar",
+            "Granulated sugar",
+            "Eggs",
+            "Vanilla extract",
+            "Semi-sweet chocolate chips"
+        ],
+        "post_time": "2024-06-21T15:00:00Z",
+        "type": "Breakfast",
+        "is_vegetarian": true,
+        "portion_size": "single"
+    },
+    {
+        "id": 9,
+        "title": "Chicken Noodle Soup",
+        "image": "https://i.postimg.cc/5NQrJmKX/OIF.jpg",
+        "rating": 4.2,
+        "price": 6.99,
+        "admin": "Homey Comfort",
+        "description": "A classic chicken noodle soup made with chicken broth, noodles, vegetables, and herbs. Perfect for a light meal or a comforting pick-me-up.",
+        "ingredients": [
+            "Chicken broth",
+            "Cooked chicken breast (shredded)",
+            "Egg noodles",
+            "Carrots",
+            "Celery",
+            "Onions",
+            "Dried herbs (thyme, parsley, etc.)",
+            "Salt & pepper"
+        ],
+        "post_time": "2024-06-20T11:00:00Z",
+        "type": "Breakfast",
+        "is_vegetarian": false,
+        "portion_size": "large"
+    }
+]

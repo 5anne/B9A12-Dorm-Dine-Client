@@ -10,7 +10,7 @@ const Navbar = () => {
     </>
     return (
         <div>
-            <div className="navbar fixed z-20 opacity-70 text-white justify-between bg-[#480607]">
+            <div className="navbar fixed z-10 opacity-70 text-white justify-between bg-[#480607]">
                 <div className="">
                     <img className="w-12 rounded-full" src="https://i.postimg.cc/8cp7fDtp/baking-bread-abstract-concept-illustration-quarantine-cooking-family-recipe-baking-yeast-335657-1062.jpg" alt="" />
                     <a className="btn btn-ghost text-2xl font-display">Dorm Dine</a>

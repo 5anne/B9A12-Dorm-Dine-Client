@@ -3,6 +3,7 @@ import Footer from "../Shared/Footer";
 import Navbar from "../Shared/Navbar";
 import Banner from "./Banner";
 import DietBlogs from "./DietBlog/DietBlogs";
+import MealCategory from "./MealCategory/MealCategory";
 
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
             </Helmet>
             <Navbar></Navbar>
             <Banner></Banner>
+            <MealCategory></MealCategory>
             <DietBlogs></DietBlogs>
             <Footer></Footer>
         </div>
