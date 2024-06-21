@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
+import { updateProfile } from "firebase/auth";
 
 
 const Register = () => {
@@ -38,6 +39,14 @@ const Register = () => {
             .then(result => {
                 console.log(result.user);
                 setSuccess('Successfully Registered!');
+
+                updateProfile(result.user, {
+                    displayName: name,
+                    photoURL: photo
+                })
+                    .then(() => console.log('profile updated'))
+                    .catch(error => console.error(error))
+
                 e.target.reset();
                 navigate(location?.state ? location.state : '/');
             })

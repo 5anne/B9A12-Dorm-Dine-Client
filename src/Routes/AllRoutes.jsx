@@ -6,6 +6,9 @@ import CheckOut from "../Components/Home/MemberShip/CheckOut";
 import Meals from "../Components/Meals/Meals";
 import Login from "../Components/Pages/Login";
 import Register from "../Components/Pages/Register";
+import PrivateRoute from "./PrivateRoute";
+import UserDashboard from "../Components/Home/UserDashboard/UserDashboard";
+import UserProfile from "../Components/Home/UserDashboard/UserProfile";
 
 
 const AllRoutes = createBrowserRouter([
@@ -24,7 +27,7 @@ const AllRoutes = createBrowserRouter([
             },
             {
                 path: "/checkout/:package_name",
-                element: <CheckOut></CheckOut>
+                element: <PrivateRoute><CheckOut></CheckOut></PrivateRoute>
             },
             {
                 path: "/meals",
@@ -40,6 +43,16 @@ const AllRoutes = createBrowserRouter([
             }
         ]
     },
+    {
+        path: "/userDashboard",
+        element: <UserDashboard></UserDashboard>,
+        children: [
+            {
+                path: "/userDashboard",
+                element: <UserProfile></UserProfile>
+            }
+        ]
+    }
 ]);
 
 export default AllRoutes;

@@ -36,7 +36,7 @@ const Banner = () => {
                     <p className="font-display text-gray-400 my-10">Enjoy a hassle-free hostel experience with our convenient meal management system. Book your meals in advance, choose from a variety of options, and pay easily online. Connect with fellow travelers over delicious food and make the most of your hostel stay.</p>
                     <form>
                         <div className="join">
-                            <input type="text" placeholder="" className="input input-bordered join-item" />
+                            <input type="text" placeholder="search menu" className="input input-bordered join-item" />
                             <button className="btn bg-[#480607] border-[#480607] text-white join-item">Search</button>
                         </div>
                     </form>
