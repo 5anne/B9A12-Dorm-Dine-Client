@@ -3,6 +3,7 @@ import Root from "../Root/Root";
 import Home from "../Components/Home/Home";
 import MealDetails from "../Components/Home/MealCategory/MealDetails";
 import CheckOut from "../Components/Home/MemberShip/CheckOut";
+import Meals from "../Components/Meals/Meals";
 
 
 const AllRoutes = createBrowserRouter([
@@ -22,6 +23,10 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/checkout/:package_name",
                 element: <CheckOut></CheckOut>
+            },
+            {
+                path: "/meals",
+                element: <Meals></Meals>
             }
         ]
     },
