@@ -9,7 +9,7 @@ import SectionTitle from './SectionTitle';
 
 const DietBlogs = () => {
     return (
-        <section>
+        <section className='max-w-6xl mx-auto'>
             <SectionTitle subHeading={"Blogs"} heading={"All Latest Blogs"}></SectionTitle>
             <Swiper
                 slidesPerView={3}

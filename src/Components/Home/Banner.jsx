@@ -1,9 +1,9 @@
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
 
 const Banner = () => {
     return (
-        <div className="">
+        <div className="max-w-6xl mx-auto relative">
             <Carousel>
                 <div>
                     <img src="https://i.postimg.cc/hvM1DL0X/e834888f03983379a37f1be7f70caf40.jpg" />
@@ -30,6 +30,18 @@ const Banner = () => {
                     <p className="legend"></p>
                 </div>
             </Carousel>
+            <div className=" bg-gray-950 bg-opacity-50 w-2/3 mx-auto p-16 absolute top-48 left-48">
+                <div className="text-center text-white leading-relaxed">
+                    <h1 className="font-bold text-4xl text-gray-300 font-display">Dorm Dine: Manage Your Meals with Ease</h1>
+                    <p className="font-display text-gray-400 my-10">Enjoy a hassle-free hostel experience with our convenient meal management system. Book your meals in advance, choose from a variety of options, and pay easily online. Connect with fellow travelers over delicious food and make the most of your hostel stay.</p>
+                    <form>
+                        <div className="join">
+                            <input type="text" placeholder="" className="input input-bordered join-item" />
+                            <button className="btn bg-[#480607] border-[#480607] text-white join-item">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };
