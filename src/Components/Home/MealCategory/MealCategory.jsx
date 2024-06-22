@@ -12,7 +12,7 @@ const MealCategory = () => {
     const [dinner, setDinner] = useState([])
 
     useEffect(() => {
-        fetch('/meal.json')
+        fetch('http://localhost:5000/mealJson')
             .then(res => res.json())
             .then(data => {
                 setMeals(data);
@@ -43,7 +43,7 @@ const MealCategory = () => {
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
-                                meals?.map(meal => <div key={meal.id}>
+                                meals?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-green-900 bg-opacity-90 shadow-xl hover:border-none">
                                         <div className="card-body text-gray-300 font-display">
                                             <img className="w-96 h-48" src={meal.image} alt="" />
@@ -51,7 +51,7 @@ const MealCategory = () => {
                                             <p>Rating: {meal.rating}</p>
                                             <p>Price: ${meal.price}</p>
                                             <div className="card-actions justify-end">
-                                                <Link to={`/meal/${meal.id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
+                                                <Link to={`/meal/${meal._id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@ const MealCategory = () => {
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
-                                breakfast?.map(meal => <div key={meal.id}>
+                                breakfast?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-green-900 bg-opacity-90 shadow-xl hover:border-none">
                                         <div className="card-body text-gray-300 font-display">
                                             <img className="w-96 h-48" src={meal.image} alt="" />
@@ -71,7 +71,7 @@ const MealCategory = () => {
                                             <p>Rating: {meal.rating}</p>
                                             <p>Price: ${meal.price}</p>
                                             <div className="card-actions justify-end">
-                                                <Link to={`/meal/${meal.id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
+                                                <Link to={`/meal/${meal._id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
                                             </div>
                                         </div>
                                     </div>
@@ -82,7 +82,7 @@ const MealCategory = () => {
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
-                                lunch?.map(meal => <div key={meal.id}>
+                                lunch?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-green-900 bg-opacity-90 shadow-xl hover:border-none">
                                         <div className="card-body text-gray-300 font-display">
                                             <img className="w-96 h-48" src={meal.image} alt="" />
@@ -90,7 +90,7 @@ const MealCategory = () => {
                                             <p>Rating: {meal.rating}</p>
                                             <p>Price: ${meal.price}</p>
                                             <div className="card-actions justify-end">
-                                                <Link to={`/meal/${meal.id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
+                                                <Link to={`/meal/${meal._id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
                                             </div>
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@ const MealCategory = () => {
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
-                                dinner?.map(meal => <div key={meal.id}>
+                                dinner?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-green-900 bg-opacity-90 shadow-xl hover:border-none">
                                         <div className="card-body text-gray-300 font-display">
                                             <img className="w-96 h-48" src={meal.image} alt="" />
@@ -109,7 +109,7 @@ const MealCategory = () => {
                                             <p>Rating: {meal.rating}</p>
                                             <p>Price: ${meal.price}</p>
                                             <div className="card-actions justify-end">
-                                                <Link to={`/meal/${meal.id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
+                                                <Link to={`/meal/${meal._id}`}><button className="btn bg-green-950 border-teal-900 text-gray-300">View Details</button></Link>
                                             </div>
                                         </div>
                                     </div>

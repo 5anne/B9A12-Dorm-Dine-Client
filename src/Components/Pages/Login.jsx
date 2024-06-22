@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
 
 const Login = () => {
     const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -39,6 +40,13 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user);
+                const name = result?.user?.displayName;
+                const email = result?.user?.email;
+                const photo = result?.user?.photoURL;
+                const userInfo = { name, email, photo, userBadge: 'Bronze' };
+
+                axios.post('http://localhost:5000/userInfo', userInfo)
+                    .then(data => console.log(data.data))
                 navigate(location?.state ? location.state : '/');
             })
             .catch(error => {

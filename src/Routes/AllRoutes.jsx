@@ -21,9 +21,9 @@ const AllRoutes = createBrowserRouter([
                 element: <Home></Home>
             },
             {
-                path: "/meal/:id",
+                path: "/meal/:_id",
                 element: <MealDetails></MealDetails>,
-                loader: ({ params }) => fetch(`/meal.json/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/mealJson/${params._id}`)
             },
             {
                 path: "/checkout/:package_name",

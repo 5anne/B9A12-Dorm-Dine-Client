@@ -17,7 +17,10 @@
             "Spices (cumin, coriander, etc.)"
         ],
         "post_time": "2024-06-19T10:30:00Z",
-        "type": "Lunch"
+        "type": "Lunch",
+        "review": 10,
+        "reviewText": "Tasty",
+        "likeCount": 300
     },
     {
         "id": 2,
@@ -39,7 +42,10 @@
             "Salt & pepper"
         ],
         "post_time": "2024-06-20T15:15:00Z",
-        "type": "Lunch"
+        "type": "Lunch",
+        "review": 11,
+        "reviewText": "Tasty",
+        "likeCount": 250
     },
     {
         "id": 3,
@@ -61,7 +67,10 @@
             "Vegetable oil (for frying)"
         ],
         "post_time": "2024-06-18T12:00:00Z",
-        "type": "Dinner"
+        "type": "Dinner",
+        "review": 9,
+        "reviewText": "Tasty",
+        "likeCount": 350
     },
     {
         "id": 4,
@@ -85,7 +94,10 @@
         "dietary_restrictions": [
             "vegetarian"
         ],
-        "portion_size": "medium"
+        "portion_size": "medium",
+        "review": 20,
+        "reviewText": "Tasty",
+        "likeCount": 400
     },
     {
         "id": 5,
@@ -107,7 +119,10 @@
         "post_time": "2024-06-20T12:00:00Z",
         "type": "Breakfast",
         "is_vegetarian": false,
-        "portion_size": "large"
+        "portion_size": "large",
+        "review": 10,
+        "reviewText": "Tasty",
+        "likeCount": 310
     },
     {
         "id": 6,
@@ -132,7 +147,10 @@
             "vegan",
             "gluten-free"
         ],
-        "portion_size": "medium"
+        "portion_size": "medium",
+        "review": 15,
+        "reviewText": "Tasty",
+        "likeCount": 311
     },
     {
         "id": 7,
@@ -154,7 +172,10 @@
         "post_time": "2024-06-19T18:00:00Z",
         "type": "Dinner",
         "is_vegetarian": false,
-        "portion_size": "single"
+        "portion_size": "single",
+        "review": 5,
+        "reviewText": "Tasty",
+        "likeCount": 307
     },
     {
         "id": 8,
@@ -178,7 +199,10 @@
         "post_time": "2024-06-21T15:00:00Z",
         "type": "Breakfast",
         "is_vegetarian": true,
-        "portion_size": "single"
+        "portion_size": "single",
+        "review": 12,
+        "reviewText": "Tasty",
+        "likeCount": 370
     },
     {
         "id": 9,
@@ -201,6 +225,9 @@
         "post_time": "2024-06-20T11:00:00Z",
         "type": "Breakfast",
         "is_vegetarian": false,
-        "portion_size": "large"
+        "portion_size": "large",
+        "review": 21,
+        "reviewText": "Tasty",
+        "likeCount": 300
     }
 ]

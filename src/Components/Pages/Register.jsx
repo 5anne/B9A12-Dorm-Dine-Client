@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
 import { updateProfile } from "firebase/auth";
+import axios from "axios";
 
 
 const Register = () => {
@@ -17,6 +18,9 @@ const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     console.log(errors);
+    // const userName = watch('name');
+    // const userEmail = watch('email');
+    // const userImage = watch('photo');
 
     const onSubmit = (data, e) => {
         console.log(data);
@@ -44,7 +48,12 @@ const Register = () => {
                     displayName: name,
                     photoURL: photo
                 })
-                    .then(() => console.log('profile updated'))
+                    .then(() => {
+                        const userInfo = { name, email, photo, userBadge: 'Bronze' };
+
+                        axios.post('http://localhost:5000/userInfo', userInfo)
+                            .then(data => console.log(data.data))
+                    })
                     .catch(error => console.error(error))
 
                 e.target.reset();
@@ -59,12 +68,23 @@ const Register = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user);
+                const name = result?.user?.displayName;
+                const email = result?.user?.email;
+                const photo = result?.user?.photoURL;
+                const userInfo = { name, email, photo, userBadge: 'Bronze' };
+
+                axios.post('http://localhost:5000/userInfo', userInfo)
+                    .then(data => console.log(data.data))
+
                 navigate(location?.state ? location.state : '/');
             })
             .catch(error => {
                 console.error(error)
             })
+
+
     }
+
 
     return (
         <div>
