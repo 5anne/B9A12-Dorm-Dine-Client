@@ -12,7 +12,7 @@ const MealCategory = () => {
     const [dinner, setDinner] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/mealJson')
+        fetch('https://dorm-dine-server-site.vercel.app/mealJson')
             .then(res => res.json())
             .then(data => {
                 setMeals(data);

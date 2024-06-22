@@ -1,30 +1,39 @@
 import { Helmet } from "react-helmet";
 import Footer from "../../Shared/Footer";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "../../Shared/Navbar";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 
 
 const MealDetails = () => {
     const { users } = useContext(AuthContext);
-    // const [details, setDetails] = useState([]);
-    // const { _id } = useParams();
-    // console.log(_id);
+    const [usersData, setUsersData] = useState(false);
+    const [badgeInfo, setBadgeInfo] = useState([])
     const details = useLoaderData();
 
-
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000/mealJson/${_id}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setDetails(data);
-    //         })
-    // }, [_id])
-
     const { _id, title, image, admin, description, ingredients, post_time, rating, likeCount, review } = details;
+
+    useEffect(() => {
+        axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
+            .then(data => {
+                console.log(data.data);
+                const tempUserData = data.data?.find(singledata => singledata.email === users.email);
+                // console.log(tempUserData);
+                setBadgeInfo(tempUserData);
+                if (tempUserData?.userBadge === 'Platinum' || tempUserData?.userBadge === 'Gold' || tempUserData?.userBadge === 'Silver') {
+                    setUsersData(true);
+                    // console.log(tempUserData?.userBadge)
+                }
+                else {
+                    setUsersData(false);
+                }
+            })
+    }, [users?.email])
+    // console.log(usersData);
 
     const handleReview = e => {
         e.preventDefault();
@@ -38,7 +47,7 @@ const MealDetails = () => {
                     reviewText: reviewValue
                 }
 
-                fetch(`http://localhost:5000/mealJson/${_id}`, {
+                fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
                     method: 'PATCH',
                     headers: {
                         'content-type': 'application/json'
@@ -61,7 +70,7 @@ const MealDetails = () => {
                 _id,
                 likeCount: likeCount + 1
             }
-            fetch(`http://localhost:5000/mealJson/${_id}`, {
+            fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json'
@@ -102,7 +111,22 @@ const MealDetails = () => {
                         </div>
                         <div className="flex justify-between items-center mt-4">
                             <button onClick={handleLike} className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likeCount}</button>
-                            <button className="btn bg-red-800 text-white">Request</button>
+                            <div>
+                                <button className="btn bg-red-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Request</button>
+                                <dialog id="my_modal_3" className="modal">
+                                    <div className="modal-box">
+                                        <form method="dialog">
+                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                        </form>
+                                        <h3 className="font-bold bg-red-900 p-4 rounded-lg text-lg">Your Badge: {badgeInfo?.userBadge}</h3>
+                                        {
+                                            usersData ?
+                                                <p className="py-4 flex justify-center"><button className="btn border-red-800">Sent Request</button></p> :
+                                                <p className="text-center text-red-800 mt-4">To Sent Request you have to Check Out Premium Package!!</p>
+                                        }
+                                    </div>
+                                </dialog>
+                            </div>
                         </div>
                         <div className="mb-10">
                             <form onSubmit={handleReview} action="">

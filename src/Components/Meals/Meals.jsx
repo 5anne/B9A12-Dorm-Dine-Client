@@ -10,7 +10,7 @@ const Meals = () => {
     const [displayMealsData, setDisplayMealsData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/allMeals')
+        fetch('https://dorm-dine-server-site.vercel.app/allMeals')
             .then(res => res.json())
             .then(data => {
                 setMealsData(data);
