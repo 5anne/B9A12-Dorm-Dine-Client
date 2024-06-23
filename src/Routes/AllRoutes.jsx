@@ -8,7 +8,12 @@ import Login from "../Components/Pages/Login";
 import Register from "../Components/Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Dashboard/Dashboard";
-import UserProfile from "../Dashboard/UserProfile";
+import UserProfile from "../Dashboard/User/UserProfile";
+import RequestedMeals from "../Dashboard/User/RequestedMeals";
+import MyReviews from "../Dashboard/User/MyReviews";
+import PaymentHistory from "../Dashboard/User/PaymentHistory";
+import AdminProfile from "../Dashboard/Admin/AdminProfile";
+import ManageUsers from "../Dashboard/Admin/ManageUsers";
 
 
 const AllRoutes = createBrowserRouter([
@@ -45,11 +50,31 @@ const AllRoutes = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
                 path: "/dashboard/userProfile",
                 element: <UserProfile></UserProfile>
+            },
+            {
+                path: "/dashboard/requestedMeals",
+                element: <RequestedMeals></RequestedMeals>
+            },
+            {
+                path: "/dashboard/myReviews",
+                element: <MyReviews></MyReviews>
+            },
+            {
+                path: "/dashboard/paymentHistory",
+                element: <PaymentHistory></PaymentHistory>
+            },
+            {
+                path: "/dashboard/adminProfile",
+                element: <AdminProfile></AdminProfile>
+            },
+            {
+                path: "/dashboard/manageUsers",
+                element: <ManageUsers></ManageUsers>
             }
         ]
     },
