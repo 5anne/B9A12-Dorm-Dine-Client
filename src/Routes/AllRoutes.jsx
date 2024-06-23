@@ -7,8 +7,8 @@ import Meals from "../Components/Meals/Meals";
 import Login from "../Components/Pages/Login";
 import Register from "../Components/Pages/Register";
 import PrivateRoute from "./PrivateRoute";
-import UserDashboard from "../Components/Home/UserDashboard/UserDashboard";
-import UserProfile from "../Components/Home/UserDashboard/UserProfile";
+import Dashboard from "../Dashboard/Dashboard";
+import UserProfile from "../Dashboard/UserProfile";
 
 
 const AllRoutes = createBrowserRouter([
@@ -44,11 +44,11 @@ const AllRoutes = createBrowserRouter([
         ]
     },
     {
-        path: "/userDashboard",
-        element: <UserDashboard></UserDashboard>,
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
         children: [
             {
-                path: "/userDashboard",
+                path: "/dashboard/userProfile",
                 element: <UserProfile></UserProfile>
             }
         ]

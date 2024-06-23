@@ -60,9 +60,9 @@ const Navbar = () => {
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-rose-100 rounded-box w-52">
-                                    <li><a className="text-black text-lg font-semibold hover:underline">{users?.displayName}</a></li>
-                                    <Link to="/userDashboard"><a className="text-black text-lg font-semibold hover:underline">User Dashboard</a></Link>
-                                    <Link to="/adminDashboard"><a className="text-black text-lg font-semibold hover:underline">Admin Dashboard</a></Link>
+                                    <li><a className="text-black text-lg font-semibold hover:underline px-4">{users?.displayName}</a></li>
+                                    <Link to="/dashboard/userProfile"><a className="text-black text-lg font-semibold hover:underline px-4">Dashboard</a></Link>
+                                    {/* <Link to="/adminDashboard"><a className="text-black text-lg font-semibold hover:underline">Admin Dashboard</a></Link> */}
                                     <Link to="/login"><button onClick={handleLogOut} className="text-black px-4 font-bold text-lg">Logout</button></Link>
                                 </ul>
                             </div> :

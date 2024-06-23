@@ -62,27 +62,27 @@ const MealDetails = () => {
         }
     }
 
-    const handleLike = e => {
-        console.log(e);
-        e.preventDefault();
-        if (users) {
-            const upLike = {
-                _id,
-                likeCount: likeCount + 1
-            }
-            fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
-                method: 'PATCH',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(upLike)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                })
-        }
-    }
+    // const handleLike = e => {
+    //     console.log(e);
+    //     e.preventDefault();
+    //     if (users) {
+    //         const upLike = {
+    //             _id,
+    //             likeCount: likeCount + 1
+    //         }
+    //         fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
+    //             method: 'PATCH',
+    //             headers: {
+    //                 'content-type': 'application/json'
+    //             },
+    //             body: JSON.stringify(upLike)
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 console.log(data)
+    //             })
+    //     }
+    // }
 
     return (
         <div>
@@ -110,7 +110,7 @@ const MealDetails = () => {
                             </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                            <button onClick={handleLike} className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likeCount}</button>
+                            <button className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likeCount}</button>
                             <div>
                                 <button className="btn bg-red-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Request</button>
                                 <dialog id="my_modal_3" className="modal">
