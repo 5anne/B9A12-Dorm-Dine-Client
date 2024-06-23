@@ -17,6 +17,8 @@ import ManageUsers from "../Dashboard/Admin/ManageUsers";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import AddMeal from "../Dashboard/Admin/AddMeal";
 import AdminRoute from "./AdminRoute";
+import AllMeals from "../Dashboard/Admin/AllMeals";
+import UpdateMeal from "../Dashboard/Admin/UpdateMeal";
 
 
 const AllRoutes = createBrowserRouter([
@@ -83,6 +85,15 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/dashboard/addMeal",
                 element: <AdminRoute><AddMeal></AddMeal></AdminRoute>
+            },
+            {
+                path: "/dashboard/allMeals",
+                element: <AdminRoute><AllMeals></AllMeals></AdminRoute>
+            },
+            {
+                path: "/dashboard/updateMeal/:id",
+                element: <AdminRoute><UpdateMeal></UpdateMeal></AdminRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params.id}`)
             }
         ]
     },
