@@ -14,12 +14,16 @@ import MyReviews from "../Dashboard/User/MyReviews";
 import PaymentHistory from "../Dashboard/User/PaymentHistory";
 import AdminProfile from "../Dashboard/Admin/AdminProfile";
 import ManageUsers from "../Dashboard/Admin/ManageUsers";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import AddMeal from "../Dashboard/Admin/AddMeal";
+import AdminRoute from "./AdminRoute";
 
 
 const AllRoutes = createBrowserRouter([
     {
         path: "/",
         element: <Root></Root>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/",
@@ -70,11 +74,15 @@ const AllRoutes = createBrowserRouter([
             },
             {
                 path: "/dashboard/adminProfile",
-                element: <AdminProfile></AdminProfile>
+                element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
             },
             {
                 path: "/dashboard/manageUsers",
-                element: <ManageUsers></ManageUsers>
+                element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
+            },
+            {
+                path: "/dashboard/addMeal",
+                element: <AdminRoute><AddMeal></AddMeal></AdminRoute>
             }
         ]
     },
