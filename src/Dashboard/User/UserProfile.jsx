@@ -23,7 +23,7 @@ const UserProfile = () => {
                 <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-52 mx-auto">My Profile</h1>
                 <div>
                     <div className="flex justify-center rounded-full my-8">
-                        <img src={users?.photoURL} alt="" />
+                        <img className="w-44" src={users?.photoURL} alt="" />
                     </div>
                     <p className="text-center"><span className="font-semibold">Name:</span> {users?.displayName}</p>
                     <p className="text-center"><span className="font-semibold">Email:</span> {users?.email}</p>
