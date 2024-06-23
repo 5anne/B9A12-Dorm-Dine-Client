@@ -85,12 +85,12 @@ const Meals = () => {
                             <p><span className="font-semibold text-gray-950">Likes:</span> {mealData.likes}</p>
                             <p className="flex gap-2 items-center"><span className="font-semibold text-gray-950">Rating: </span>{mealData.rating}<FaStar /></p>
                         </div>
-                        <h2 className="font-semibold text-gray-950">Reviews:</h2>
+                        <h2 className="font-semibold text-gray-950">Reviews: {mealData.reviews}</h2>
+                        {/* <h2 className="font-semibold text-gray-950">Ingredients:</h2> */}
                         {
-                            mealData?.reviews?.map((review, idx) => <div key={idx} className="text-gray-600">
-                                <p>#{review.author}</p>
-                                <p className="font-semibold">{review.content}</p>
-                            </div>)
+                            // mealData?.ingredients?.map((ingredient, idx) => <div key={idx} className="text-gray-600 flex">
+                            //     <p>{ingredient}</p>
+                            // </div>)
                         }
                         <p className="font-bold">#admin: {mealData.admin_name}</p>
                     </div>)
