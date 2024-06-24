@@ -34,7 +34,7 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/meal/:_id",
                 element: <MealDetails></MealDetails>,
-                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${params._id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params._id}`)
             },
             {
                 path: "/checkout/:badge",

@@ -15,7 +15,8 @@ const MealDetails = () => {
     const [badgeInfo, setBadgeInfo] = useState([])
     const details = useLoaderData();
 
-    const { _id, title, image, admin, description, ingredients, post_time, rating, likeCount, review } = details;
+    const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name } = details;
+    console.log(details);
 
     useEffect(() => {
         axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
@@ -40,10 +41,10 @@ const MealDetails = () => {
         console.log(e.target.review.value);
         const reviewValue = e.target.review.value;
         if (users) {
-            if (review) {
+            if (reviews) {
                 const upReview = {
                     _id,
-                    review: review + 1,
+                    review: reviews + 1,
                     reviewText: reviewValue
                 }
 
@@ -96,13 +97,11 @@ const MealDetails = () => {
                 <div className="hero-content text-neutral-content">
                     <div className="max-w-md mt-32">
                         <h1 className="text-2xl mb-4">{title}</h1>
-                        <img src={image} alt="" />
-                        <p className="text-gray-400 mt-4"><span className="text-gray-200 font-semibold">Admin:</span> {admin}</p>
+                        <img src={details?.image} alt="" />
+                        <p className="text-gray-400 mt-4"><span className="text-gray-200 font-semibold">Admin:</span> {admin_name}</p>
                         <p className="text-gray-400"><span className="text-gray-200 font-semibold">Description:</span> {description}</p>
-                        <p className="text-gray-400"><span className="text-gray-200 font-semibold">Ingredients:</span>
-                            {
-                                ingredients?.map((ingradient, idx) => <ul key={idx}><li className="ml-14">{idx + 1}) {ingradient}</li></ul>)
-                            }</p>
+                        <p className="text-gray-400"><span className="text-gray-200 font-semibold">Ingredients: </span>
+                        {ingredients}</p>
                         <div className="flex justify-between items-center mt-4">
                             <p className="text-gray-400"><span className="text-gray-200 font-semibold">Posted At:</span> {post_time}</p>
                             <p className="text-gray-400"><span className="text-gray-200 font-semibold">Rating:</span> {rating}
@@ -110,7 +109,7 @@ const MealDetails = () => {
                             </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                            <button className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likeCount}</button>
+                            <button className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likes}</button>
                             <div>
                                 <button className="btn bg-red-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Request</button>
                                 <dialog id="my_modal_3" className="modal">
@@ -130,7 +129,7 @@ const MealDetails = () => {
                         </div>
                         <div className="mb-10">
                             <form onSubmit={handleReview} action="">
-                                <h2 className="my-4">Total Review: {review}</h2>
+                                <h2 className="my-4">Total Review: {reviews}</h2>
                                 <input type="text" name="review" placeholder="Write Review:" className="input input-bordered input-lg w-full bg-opacity-20 h-32" />
                                 <div className="flex justify-center mt-8"><button className="btn">Post Review</button></div>
                             </form>

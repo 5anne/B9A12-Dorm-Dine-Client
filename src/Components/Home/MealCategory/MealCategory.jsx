@@ -12,15 +12,15 @@ const MealCategory = () => {
     const [dinner, setDinner] = useState([])
 
     useEffect(() => {
-        fetch('https://dorm-dine-server-site.vercel.app/mealJson')
+        fetch('https://dorm-dine-server-site.vercel.app/allMeals')
             .then(res => res.json())
             .then(data => {
                 setMeals(data);
-                const tempBreakfast = meals?.filter(meal => meal.type === 'Breakfast');
+                const tempBreakfast = meals?.filter(meal => meal.category === 'Breakfast');
                 setBreakfast(tempBreakfast);
-                const tempLunch = meals?.filter(meal => meal.type === 'Lunch');
+                const tempLunch = meals?.filter(meal => meal.category === 'Lunch');
                 setLunch(tempLunch);
-                const tempDinner = meals?.filter(meal => meal.type === 'Dinner');
+                const tempDinner = meals?.filter(meal => meal.category === 'Dinner');
                 setDinner(tempDinner);
             })
     }, [meals])
