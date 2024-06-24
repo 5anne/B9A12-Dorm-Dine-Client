@@ -59,6 +59,7 @@ const AllRoutes = createBrowserRouter([
         path: "/dashboard",
         element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
+            //User
             {
                 path: "/dashboard/userProfile",
                 element: <UserProfile></UserProfile>
@@ -75,6 +76,7 @@ const AllRoutes = createBrowserRouter([
                 path: "/dashboard/paymentHistory",
                 element: <PaymentHistory></PaymentHistory>
             },
+            //Admin
             {
                 path: "/dashboard/adminProfile",
                 element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>

@@ -1,14 +1,22 @@
-// import { useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { FcViewDetails } from "react-icons/fc";
 import useMeal from "../../Hooks/useMeal";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const AllMeals = () => {
+
     const [meals, loading, refetch] = useMeal();
+    const [mealsData, setMealsData] = useState([meals]);
     const axiosSecure = useAxiosSecure();
+
+    useEffect(() => {
+        fetch('http://localhost:5000/allMeals')
+            .then(res => res.json())
+            .then(data => setMealsData(data))
+    }, [])
 
     const handleDelete = (meal) => {
         Swal.fire({
@@ -38,10 +46,38 @@ const AllMeals = () => {
         }
         );
     }
+    // console.log(mealsData)
+    const handleSort = e => {
+        const filter = e.target.value;
+        console.log(filter);
+        if (filter === 'all') {
+            setMealsData(meals);
+        }
+        else if (filter === 'likes') {
+            const sortedData = meals.sort((a, b) => b.likes - a.likes);
+            refetch();
+            setMealsData(sortedData)
+        }
+        else if (filter === 'reviews') {
+            const sortedData = meals.sort((a, b) => b.reviews - a.reviews);
+            refetch();
+            setMealsData(sortedData)
+        }
+    }
 
     return (
         <div className="flex flex-col">
             <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-52 mx-auto mt-16">All Meals</h1>
+
+            <div className="flex gap-4 w-20 mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
+                <p>Sort</p>
+                <select onChange={handleSort} className="text-black" name="" id="">
+                    <option value="all">All</option>
+                    <option value="likes">Likes</option>
+                    <option value="reviews">Reviews</option>
+                </select>
+            </div>
+
             <div className="overflow-x-auto ml-52 mr-8 mt-12">
                 <table className="table table-xs table-pin-rows table-pin-cols">
                     <thead>
@@ -58,7 +94,7 @@ const AllMeals = () => {
                     </thead>
                     <tbody>
                         {
-                            meals?.map((meal, idx) =>
+                            mealsData?.map((meal, idx) =>
                                 <tr key={idx}>
                                     <th>{idx + 1}</th>
                                     <td>{meal.title}</td>

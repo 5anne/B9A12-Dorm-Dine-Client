@@ -1,9 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Hooks/useAdmin";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
 
 
 const Dashboard = () => {
-
+    const { users } = useContext(AuthContext);
     const [isAdmin] = useAdmin();
 
     return (
@@ -23,7 +25,9 @@ const Dashboard = () => {
                                         <NavLink to="/">Home</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/adminProfile">Admin Profile</NavLink>
+                                        {
+                                            users && isAdmin && <NavLink to="/dashboard/adminProfile">Admin Profile</NavLink>
+                                        }
                                     </li>
                                     <li>
                                         <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
@@ -49,7 +53,9 @@ const Dashboard = () => {
                                         <NavLink to="/">Home</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/userProfile">User Profile</NavLink>
+                                        {
+                                            users && !isAdmin && <NavLink to="/dashboard/userProfile">User Profile</NavLink>
+                                        }
                                     </li>
                                     <li>
                                         <NavLink to="/dashboard/requestedMeals">Requested Meals</NavLink>
