@@ -81,7 +81,7 @@ const AllMeals = () => {
             <div className="overflow-x-auto ml-52 mr-8 mt-12">
                 <table className="table table-xs table-pin-rows table-pin-cols">
                     <thead>
-                        <tr>
+                        <tr className="bg-green-800 text-gray-300">
                             <th></th>
                             <td>Title</td>
                             <td>Distributor Name</td>

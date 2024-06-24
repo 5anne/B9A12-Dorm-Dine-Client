@@ -4,14 +4,14 @@ import { FaServer } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+// import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const ServeMeals = () => {
-    const [username, setusername] = useState([]);
+    // const [username, setusername] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const axiosSecure = useAxiosSecure();
-    const axiosPublic = useAxiosPublic();
+    // const axiosPublic = useAxiosPublic();
     const { data: reqMeals = [], refetch } = useQuery({
         queryKey: ['reqMeals'],
         queryFn: async () => {
@@ -21,16 +21,17 @@ const ServeMeals = () => {
         }
     })
     console.log(errors);
+    console.log(reqMeals);
 
-    const { data: usersNameData = [] } = useQuery({
-        queryKey: ['/usersNameData', username],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/requestedMeals/${username}`);
-            // console.log(res.data);
-            setUsersData(res.data);
-            return res.data;
-        }
-    })
+    // const { data: usersNameData = [] } = useQuery({
+    //     queryKey: ['/usersNameData', username],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/requestedMeals/${username}`);
+    //         // console.log(res.data);
+    //         setUsersData(res.data);
+    //         return res.data;
+    //     }
+    // })
 
     const handleServe = async (data) => {
         // data.preventDefault();
@@ -72,10 +73,10 @@ const ServeMeals = () => {
     const onSubmit = (data, e) => {
         e.preventDefault();
         // console.log(data);
-        const uname = data.username;
-        if (uname) {
-            setusername(uname);
-        }
+        // const uname = data.username;
+        // if (uname) {
+        //     setusername(uname);
+        // }
     }
 
     return (
@@ -116,7 +117,7 @@ const ServeMeals = () => {
             <div className="overflow-x-auto ml-52 mr-8 mt-12">
                 <table className="table table-xs table-pin-rows table-pin-cols">
                     <thead className="text-gray-950 p-2">
-                        <tr >
+                        <tr className="bg-red-800 text-gray-300">
                             <th></th>
                             <td>Title</td>
                             <td>User Name</td>

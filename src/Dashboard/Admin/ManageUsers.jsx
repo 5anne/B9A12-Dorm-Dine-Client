@@ -80,13 +80,13 @@ const ManageUsers = () => {
         <div>
             <div className="flex flex-col bg-slate-300 shadow-xl p-8 w-11/12 mx-auto">
                 <div className="flex justify-center w-full my-10">
-                    <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-1/3 mx-auto">Total Users: {allUsers.length}</h1>
+                    <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-1/3 mx-auto ">Total Users: {allUsers.length}</h1>
                 </div>
                 <div >
                     <form onSubmit={handleSubmit(onSubmit)} className="flex gap-12 w-10/12 mx-auto ml-80 mb-12" action="">
                         <label className="input input-bordered flex items-center gap-2">
                             <input  {...register("username")} type="text" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
-                            <button type="submit" className="btn"><svg
+                            <button type="submit" className=""><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
                                 fill="currentColor"
@@ -99,7 +99,7 @@ const ManageUsers = () => {
                         </label>
                         <label className="input input-bordered flex items-center gap-2">
                             <input  {...register("useremail")} type="email" placeholder="Search by Useremail" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
-                            <button type="submit" className="btn"><svg
+                            <button type="submit" className=""><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
                                 fill="currentColor"

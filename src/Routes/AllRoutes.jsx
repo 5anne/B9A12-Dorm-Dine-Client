@@ -20,6 +20,8 @@ import AdminRoute from "./AdminRoute";
 import AllMeals from "../Dashboard/Admin/AllMeals";
 import UpdateMeal from "../Dashboard/Admin/UpdateMeal";
 import ServeMeals from "../Dashboard/Admin/ServeMeals";
+import AllReviews from "../Dashboard/Admin/AllReviews";
+import UpcomingMeals from "../Dashboard/Admin/UpcomingMeals";
 
 
 const AllRoutes = createBrowserRouter([
@@ -100,8 +102,16 @@ const AllRoutes = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params.id}`)
             },
             {
+                path: "/dashboard/allReviews",
+                element: <AdminRoute><AllReviews></AllReviews></AdminRoute>
+            },
+            {
                 path: "/dashboard/serveMeals",
                 element: <AdminRoute><ServeMeals></ServeMeals></AdminRoute>
+            },
+            {
+                path: "/dashboard/upcomingMeals",
+                element: <AdminRoute><UpcomingMeals></UpcomingMeals></AdminRoute>
             }
         ]
     },
