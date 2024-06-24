@@ -1,14 +1,17 @@
 [
     {
-        "id": 1,
-        "platinum": "platinum"
+        "badge": "platinum",
+        "image": "https://i.postimg.cc/br70wpv6/Night-of-Hope-Platinum-Sponsor.jpg",
+        "price": 100.00
     },
     {
-        "id": 2,
-        "gold": "gold"
+        "badge": "gold",
+        "image": "https://i.postimg.cc/xCtnQ162/OIP-9.jpg",
+        "price": 80.00
     },
     {
-        "id": 3,
-        "silver": "silver"
+        "badge": "silver",
+        "image": "https://i.postimg.cc/mD2WmGB6/Silver-Sponsor.png",
+        "price": 60.00
     }
 ]
