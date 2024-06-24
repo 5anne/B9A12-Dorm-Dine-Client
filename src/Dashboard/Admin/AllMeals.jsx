@@ -103,7 +103,7 @@ const AllMeals = () => {
                                     <td>{meal.reviews}</td>
                                     <td><Link to={`/dashboard/updateMeal/${meal._id}`}><button className="btn flex justify-center"><FaEdit></FaEdit></button></Link></td>
                                     <td><button onClick={() => handleDelete(meal)} className="btn flex justify-center"><FaTrashAlt></FaTrashAlt></button></td>
-                                    <td><button className="btn flex justify-center"><FcViewDetails /></button></td>
+                                    <td><Link to={`/meal/${meal._id}`}><button className="btn flex justify-center"><FcViewDetails /></button></Link></td>
                                 </tr>
                             )
                         }

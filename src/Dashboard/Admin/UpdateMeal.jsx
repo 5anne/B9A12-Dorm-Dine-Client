@@ -21,11 +21,13 @@ const UpdateMeal = () => {
             image: data.image,
             ingredients: data.ingredients,
             description: data.description,
-            price: data.price,
-            rating: data.rating,
+            price: parseFloat(data.price),
+            rating: parseFloat(data.rating),
             post_time: data.postTime,
-            likes: data.likes,
-            reviews: data.reviews,
+            likes: parseInt(data.likes),
+            reviews: parseInt(data.reviews),
+            reviewText: data.reviewText,
+            status: data.status,
             admin_name: data.adminName,
             admin_email: data.adminEmail
         }
@@ -94,16 +96,16 @@ const UpdateMeal = () => {
                                 </label>
                                 <input {...register("price")} type="number" defaultValue={price} className="input input-bordered" />
                             </div>
-                        </div>
 
-                        <div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Rating <span className="text-red-700">*</span></span>
                                 </label>
                                 <input {...register("rating")} type="number" defaultValue={rating} className="input input-bordered" />
                             </div>
+                        </div>
 
+                        <div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Post Time <span className="text-red-700">*</span></span>
@@ -123,6 +125,20 @@ const UpdateMeal = () => {
                                     <span className="label-text">Reviews <span className="text-red-700">*</span></span>
                                 </label>
                                 <input {...register("reviews")} type="number" defaultValue={reviews} className="input input-bordered" />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Write Review</span>
+                                </label>
+                                <input {...register("reviewText")} type="text" placeholder="Write reviews" className="input input-bordered" />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Status</span>
+                                </label>
+                                <input {...register("status")} type="text" placeholder="Added/Upcoming/Requested/Served" className="input input-bordered" />
                             </div>
 
                             <div className="form-control">
