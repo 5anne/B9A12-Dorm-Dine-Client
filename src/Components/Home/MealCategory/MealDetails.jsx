@@ -5,17 +5,24 @@ import Navbar from "../../Shared/Navbar";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { AuthContext } from "../../../Provider/AuthProvider";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const MealDetails = () => {
-    const { users } = useContext(AuthContext);
+    const { users, loading } = useContext(AuthContext);
     const [usersData, setUsersData] = useState(false);
     const [badgeInfo, setBadgeInfo] = useState([])
     const details = useLoaderData();
+    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
+    // const location = useLocation();
 
-    const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name } = details;
+    const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name, admin_email } = details;
     console.log(details);
 
     useEffect(() => {
@@ -34,56 +41,120 @@ const MealDetails = () => {
                 }
             })
     }, [users?.email])
-    // console.log(usersData);
 
-    const handleReview = e => {
+    const handleReview = async (e) => {
         e.preventDefault();
         console.log(e.target.review.value);
         const reviewValue = e.target.review.value;
         if (users) {
-            if (reviews) {
+            if (reviewValue) {
                 const upReview = {
-                    _id,
-                    review: reviews + 1,
-                    reviewText: reviewValue
+                    title: title,
+                    category: category,
+                    image: image,
+                    ingredients: ingredients,
+                    description: description,
+                    price: parseFloat(price),
+                    rating: parseFloat(rating),
+                    post_time: post_time,
+                    likes: parseInt(likes),
+                    reviews: parseInt(reviews + 1),
+                    reviewText: reviewValue,
+                    status: status,
+                    admin_name: admin_name,
+                    admin_email: admin_email
                 }
 
-                fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(upReview)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data)
-                    })
+                const res = await axiosPublic.patch(`/allMeals/${_id}`, upReview);
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    e.target.reset();
+                    if (!loading) {
+                        return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
+                    }
+                }
             }
         }
     }
 
-    // const handleLike = e => {
-    //     console.log(e);
-    //     e.preventDefault();
-    //     if (users) {
-    //         const upLike = {
-    //             _id,
-    //             likeCount: likeCount + 1
-    //         }
-    //         fetch(`https://dorm-dine-server-site.vercel.app/mealJson/${_id}`, {
-    //             method: 'PATCH',
-    //             headers: {
-    //                 'content-type': 'application/json'
-    //             },
-    //             body: JSON.stringify(upLike)
-    //         })
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 console.log(data)
-    //             })
-    //     }
-    // }
+    const handleLike = async (e) => {
+        console.log(e);
+        e.preventDefault();
+        if (users) {
+            const upLike = {
+                title: title,
+                category: category,
+                image: image,
+                ingredients: ingredients,
+                description: description,
+                price: parseFloat(price),
+                rating: parseFloat(rating),
+                post_time: post_time,
+                likes: parseInt(likes + 1),
+                reviews: parseInt(reviews),
+                reviewText: reviewText,
+                status: status,
+                admin_name: admin_name,
+                admin_email: admin_email
+            }
+
+            const res = await axiosSecure.patch(`/allMeals/${_id}`, upLike);
+            console.log(res.data);
+            if (res.data.modifiedCount > 0) {
+                e.target.reset();
+                if (!loading) {
+                    return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
+                }
+            }
+        }
+        else {
+            navigate('/login');
+        }
+    }
+
+    const handleRequest = e => {
+        e.preventDefault();
+        navigate('/login');
+    }
+
+    const handleSentRequest = async (e) => {
+        console.log(e);
+        e.preventDefault();
+        const currentStatus = 'requested';
+        if (users) {
+            const reqMeals = {
+                user_name: users.displayName,
+                user_email: users.email,
+                title: title,
+                category: category,
+                image: image,
+                ingredients: ingredients,
+                description: description,
+                price: parseFloat(price),
+                rating: parseFloat(rating),
+                post_time: post_time,
+                likes: parseInt(likes),
+                reviews: parseInt(reviews),
+                reviewText: reviewText,
+                status: currentStatus,
+                admin_name: admin_name,
+                admin_email: admin_email
+            }
+
+            const res = await axiosSecure.post('/requestedMeals', reqMeals);
+            console.log(res.data);
+            if (res.data.insertedId) {
+                // reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${title} is added to the Requested Meals.`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    }
 
     return (
         <div>
@@ -101,7 +172,7 @@ const MealDetails = () => {
                         <p className="text-gray-400 mt-4"><span className="text-gray-200 font-semibold">Admin:</span> {admin_name}</p>
                         <p className="text-gray-400"><span className="text-gray-200 font-semibold">Description:</span> {description}</p>
                         <p className="text-gray-400"><span className="text-gray-200 font-semibold">Ingredients: </span>
-                        {ingredients}</p>
+                            {ingredients}</p>
                         <div className="flex justify-between items-center mt-4">
                             <p className="text-gray-400"><span className="text-gray-200 font-semibold">Posted At:</span> {post_time}</p>
                             <p className="text-gray-400"><span className="text-gray-200 font-semibold">Rating:</span> {rating}
@@ -109,18 +180,22 @@ const MealDetails = () => {
                             </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                            <button className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likes}</button>
+                            <button onClick={handleLike} className="w-10 hover:font-bold p-1 rounded-lg flex gap-2 items-center">Like<img src="https://i.postimg.cc/h4MS6ZmF/direction-14871509.png" alt="" />{likes}</button>
                             <div>
-                                <button className="btn bg-red-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Request</button>
+                                {
+                                    users ?
+                                        <button className="btn bg-red-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Request</button> :
+                                        <button onClick={handleRequest} className="btn bg-red-800 text-white">Request</button>
+                                }
                                 <dialog id="my_modal_3" className="modal">
                                     <div className="modal-box">
                                         <form method="dialog">
                                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                         </form>
-                                        <h3 className="font-bold bg-red-900 p-4 rounded-lg text-lg">Your Badge: {badgeInfo?.userBadge}</h3>
+                                        <h3 className="font-bold bg-red-900 p-4 rounded-lg text-lg mt-5">Your Badge: {badgeInfo?.userBadge}</h3>
                                         {
                                             usersData ?
-                                                <p className="py-4 flex justify-center"><button className="btn border-red-800">Sent Request</button></p> :
+                                                <p className="py-4 flex justify-center"><button onClick={handleSentRequest} className="btn border-red-800">Sent Request</button></p> :
                                                 <p className="text-center text-red-800 mt-4">To Sent Request you have to Check Out Premium Package!!</p>
                                         }
                                     </div>
