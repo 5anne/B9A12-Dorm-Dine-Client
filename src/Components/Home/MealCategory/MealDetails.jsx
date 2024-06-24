@@ -5,7 +5,7 @@ import Navbar from "../../Shared/Navbar";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { AuthContext } from "../../../Provider/AuthProvider";
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
