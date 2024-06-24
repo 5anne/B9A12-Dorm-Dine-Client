@@ -13,7 +13,7 @@ const CheckOut = () => {
         <div>
             <div>
                 <Elements stripe={stripePromise}>
-                    <CheckoutForm price={badgeData?.price} />
+                    <CheckoutForm price={badgeData.price} />
                 </Elements>
             </div>
         </div>

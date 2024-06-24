@@ -2,6 +2,8 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 
 const CheckoutForm = ({ price }) => {
@@ -9,17 +11,30 @@ const CheckoutForm = ({ price }) => {
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
+    const [badgeData, setBadgeData] = useState([]);
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
     console.log(price);
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price: price })
-            .then(res => {
-                console.log(res.data.clientSecret);
-                setClientSecret(res.data.clientSecret);
+        axios.get('http://localhost:5000/premiumJson')
+            .then(data => {
+                console.log(data.data);
+                const tempData = data?.data?.find(badgeInfo => badgeInfo.price === price);
+                console.log(tempData);
+                setBadgeData(tempData);
             })
+    }, [price])
+
+    useEffect(() => {
+        if (price > 0) {
+            axiosSecure.post('/create-payment-intent', { price: price })
+                .then(res => {
+                    console.log(res.data.clientSecret);
+                    setClientSecret(res.data.clientSecret);
+                })
+        }
 
     }, [axiosSecure, price])
 
@@ -64,6 +79,25 @@ const CheckoutForm = ({ price }) => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction Id', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
+                const payment = {
+                    name: users.displayName,
+                    email: users.email,
+                    transactionId: paymentIntent.id,
+                    price: price,
+                    date: new Date(),
+                    badge: badgeData.badge
+                }
+                const res = await axiosSecure.post('/payments', payment);
+                console.log('Payment saved', res);
+                if (res.data?.paymentResult?.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Payment successfully done!!!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
             }
         }
     };
@@ -76,6 +110,9 @@ const CheckoutForm = ({ price }) => {
                         style: {
                             base: {
                                 backgroundColor: 'wheat',
+                                padding: '10px',
+                                border: '1px solid black',
+                                borderRadius: '4px',
                                 fontSize: '16px',
                                 color: '#424770',
                                 '::placeholder': {
@@ -88,12 +125,14 @@ const CheckoutForm = ({ price }) => {
                         },
                     }}
                 />
+                <div>
+                    {
+                        transactionId && <p className="text-green-900 text-center mt-4">Your Transaction ID: {transactionId}</p>
+                    }
+                </div>
+                <p className="text-red-700 text-center mt-4">{error}</p>
                 <div className="flex justify-center">
-                    <button type="submit" className="btn bg-blue-950 text-white px-8 mt-8" disabled={!stripe || !clientSecret}>
-                        Pay
-                    </button>
-                    <p className="text-red-700">{error}</p>
-                    {transactionId && <p className="text-green-900">Your Transaction ID: {transactionId}</p>}
+                    <button type="submit" className="btn bg-blue-950 text-white px-8 mt-8" disabled={!stripe || !clientSecret}>Pay</button>
                 </div>
             </form>
         </div>
