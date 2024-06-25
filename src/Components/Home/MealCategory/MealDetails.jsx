@@ -29,7 +29,7 @@ const MealDetails = () => {
         axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
             .then(data => {
                 console.log(data.data);
-                const tempUserData = data.data?.find(singledata => singledata.email === users.email);
+                const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
                 // console.log(tempUserData);
                 setBadgeInfo(tempUserData);
                 if (tempUserData?.userBadge === 'Platinum' || tempUserData?.userBadge === 'Gold' || tempUserData?.userBadge === 'Silver') {
@@ -129,14 +129,12 @@ const MealDetails = () => {
         }
     }
 
-    const handleRequest = e => {
-        e.preventDefault();
+    const handleRequest = () => {
         navigate('/login');
     }
 
     const handleSentRequest = async (e) => {
         console.log(e);
-        e.preventDefault();
         const currentStatus = 'requested';
         if (users) {
             const reqMeals = {
