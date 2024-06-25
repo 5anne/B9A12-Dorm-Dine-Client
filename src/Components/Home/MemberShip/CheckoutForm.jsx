@@ -89,7 +89,7 @@ const CheckoutForm = ({ price }) => {
                 }
                 const res = await axiosSecure.post('/payments', payment);
                 console.log('Payment saved', res);
-                if (res.data?.paymentResult?.insertedId) {
+                if (res.data?.insertedId) {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -103,7 +103,9 @@ const CheckoutForm = ({ price }) => {
     };
 
     return (
-        <div className="w-1/2 mx-auto mt-20 shadow-2xl border-2 p-8">
+        <div className="w-1/2 mx-auto mt-8 shadow-2xl border-2 rounded-2xl p-8 bg-[url('https://i.postimg.cc/4Nt9FZjK/vintage-grunge-blue-concrete-texture-studio-wall-background-with-vignette-1258-28374.jpg')]">
+            <h1 className="text-center mb-4 text-xl text-gray-200 font-bold border-b-[1px] w-1/2 mx-auto pb-2 border-black border-dashed">Card Info</h1>
+
             <form onSubmit={handleSubmit} action="">
                 <CardElement
                     options={{
@@ -132,7 +134,14 @@ const CheckoutForm = ({ price }) => {
                 </div>
                 <p className="text-red-700 text-center mt-4">{error}</p>
                 <div className="flex justify-center">
-                    <button type="submit" className="btn bg-blue-950 text-white px-8 mt-8" disabled={!stripe || !clientSecret}>Pay</button>
+                    <button type="submit" className="btn bg-blue-950 text-white px-8 mt-8 rounded-3xl" disabled={!stripe || !clientSecret}>Pay</button>
+                </div>
+                <div className="flex justify-center mt-8 gap-1 items-center">
+                    <img className="w-14 h-8" src="https://i.postimg.cc/dt4YFZbg/OIP-16.jpg" alt="" />
+                    <img className="w-14 h-8" src="https://i.postimg.cc/K8WhkSvN/amazon-pay-Startup-Talky.jpg" alt="" />
+                    <img className="w-14 h-8" src="https://i.postimg.cc/Qx6RwG53/apple-pay-icon-isolated-in-black-editorial-mobile-payment-app-logo-free-vector.jpg" alt="" />
+                    <img className="w-14 h-8" src="https://i.postimg.cc/L52cKmNH/Font-Paypal-Logo-768x501.jpg" alt="" />
+                    <img className="w-14 h-8" src="https://i.postimg.cc/3xVzrXnf/Visa-Logo-1992-2000-453x255.png" alt="" />
                 </div>
             </form>
         </div>
