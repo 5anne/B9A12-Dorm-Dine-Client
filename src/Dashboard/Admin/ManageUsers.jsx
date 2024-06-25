@@ -25,7 +25,6 @@ const ManageUsers = () => {
         queryKey: ['/usersNameData', username],
         queryFn: async () => {
             const res = await axiosSecure.get(`/userInfo/${username}`);
-            // console.log(res.data);
             setUsersData(res.data);
             return res.data;
         }
@@ -35,20 +34,17 @@ const ManageUsers = () => {
         queryKey: ['/usersEmailData', useremail],
         queryFn: async () => {
             const res = await axiosSecure.get(`/userInfo/${useremail}`);
-            // console.log(res.data);
             setUsersData(res.data);
             return res.data;
         }
     })
     console.log(usersNameData);
     console.log(usersEmailData);
-    // console.log(useremail);
+
     const onSubmit = (data, e) => {
         e.preventDefault();
-        // console.log(data);
         const uname = data.username;
         const uemail = data.useremail;
-        // console.log(uemail);
         if (uname) {
             setusername(uname);
         }
@@ -57,7 +53,6 @@ const ManageUsers = () => {
         }
     }
 
-    // console.log(allUsers);
     const handleMakeAdmin = user => {
         console.log(user);
         axiosSecure.patch(`/userInfo/admin/${user._id}`)

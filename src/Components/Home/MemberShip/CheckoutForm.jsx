@@ -18,7 +18,7 @@ const CheckoutForm = ({ price }) => {
     console.log(price);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/premiumJson')
+        axios.get('https://dorm-dine-server-site.vercel.app/premiumJson')
             .then(data => {
                 console.log(data.data);
                 const tempData = data?.data?.find(badgeInfo => badgeInfo.price === price);

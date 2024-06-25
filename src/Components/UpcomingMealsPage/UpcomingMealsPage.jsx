@@ -7,37 +7,35 @@ import { FaStar, FaThumbsUp } from "react-icons/fa";
 import SectionTitle from "../Home/DietBlog/SectionTitle";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import axios from "axios";
+// import axios from "axios";
 import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
+import useMeal from "../../Hooks/useMeal";
 
 
 const UpcomingMealsPage = () => {
+    const [isPending] = useMeal();
     const [meals, setMeals] = useState([]);
     const [badgeInfo, setBadgeInfo] = useState([]);
-    const { users, loading } = useContext(AuthContext);
+    const { users } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
-    // const navigate = useNavigate();
 
     useEffect(() => {
-        axiosPublic.get('http://localhost:5000/upcomingMeals')
+        axiosPublic.get('https://dorm-dine-server-site.vercel.app/upcomingMeals')
             .then(data => setMeals(data.data))
     }, [axiosPublic])
 
     useEffect(() => {
-        axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
             .then(data => {
-                console.log(data.data);
                 const tempData = data.data?.find(user => user?.email === users?.email);
-                console.log(tempData);
-                setBadgeInfo(tempData.userBadge);
+                setBadgeInfo(tempData?.userBadge);
             })
-    }, [users?.email])
+    }, [axiosSecure, users?.email])
 
 
     const handleLike = async (data) => {
-        console.log(data);
+
         if (badgeInfo === 'Platinum' || badgeInfo === 'Gold' || badgeInfo === 'Silver') {
             console.log('Inside');
             const upLike = {
@@ -58,10 +56,10 @@ const UpcomingMealsPage = () => {
             }
 
             const res = await axiosSecure.patch(`/upcomingMeals/${data._id}`, upLike);
-            console.log(res.data);
-            console.log(loading);
             if (res.data.modifiedCount > 0) {
-                //
+                if (isPending) {
+                    return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
+                }
             }
         }
         else {

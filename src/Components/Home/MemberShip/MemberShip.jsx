@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const MemberShip = () => {
     const [premium, setPremium] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/premiumJson')
+        fetch('https://dorm-dine-server-site.vercel.app/premiumJson')
             .then(res => res.json())
             .then(data => setPremium(data))
     }, [])

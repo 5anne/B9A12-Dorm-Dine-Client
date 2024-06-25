@@ -13,7 +13,6 @@ const UpdateMeal = () => {
     const axiosSecure = useAxiosSecure();
 
     const onSubmit = async (data) => {
-        console.log(data);
         const mealData = {
 
             title: data.title,

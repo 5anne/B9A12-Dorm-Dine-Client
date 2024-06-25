@@ -32,7 +32,6 @@ const AddMeal = () => {
         const res = await axiosSecure.post('/allMeals', mealData);
         console.log(res.data);
         if (res.data.insertedId) {
-            // reset();
             Swal.fire({
                 position: "top-end",
                 icon: "success",

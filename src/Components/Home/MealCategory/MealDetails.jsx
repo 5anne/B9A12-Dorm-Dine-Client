@@ -10,41 +10,37 @@ import axios from "axios";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useMeal from "../../../Hooks/useMeal";
 
 
 const MealDetails = () => {
-    const { users, loading } = useContext(AuthContext);
+    const [isPending] = useMeal();
+    const { users } = useContext(AuthContext);
     const [usersData, setUsersData] = useState(false);
     const [badgeInfo, setBadgeInfo] = useState([])
     const details = useLoaderData();
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
-    // const location = useLocation();
 
     const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name, admin_email } = details;
-    console.log(details);
 
     useEffect(() => {
-        axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
             .then(data => {
-                console.log(data.data);
                 const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
-                // console.log(tempUserData);
                 setBadgeInfo(tempUserData);
                 if (tempUserData?.userBadge === 'Platinum' || tempUserData?.userBadge === 'Gold' || tempUserData?.userBadge === 'Silver') {
                     setUsersData(true);
-                    // console.log(tempUserData?.userBadge)
                 }
                 else {
                     setUsersData(false);
                 }
             })
-    }, [users?.email])
+    }, [axiosSecure, users?.email])
 
     const handleReview = async (e) => {
         e.preventDefault();
-        console.log(e.target.review.value);
         const reviewValue = e.target.review.value;
         if (users) {
             if (reviewValue) {
@@ -82,11 +78,11 @@ const MealDetails = () => {
 
                 const res = await axiosPublic.patch(`/allMeals/${_id}`, upReview);
                 console.log(res.data);
-                axios.post('http://localhost:5000/usersAct', postReview)
+                axios.post('https://dorm-dine-server-site.vercel.app/usersAct', postReview)
                     .then(data => console.log(data.data))
                 if (res.data.modifiedCount > 0) {
                     e.target.reset();
-                    if (!loading) {
+                    if (isPending) {
                         return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
                     }
                 }
@@ -96,7 +92,7 @@ const MealDetails = () => {
 
     const handleLike = async (e) => {
         console.log(e);
-        e.preventDefault();
+        // e.preventDefault();
         if (users) {
             const upLike = {
                 title: title,
@@ -118,8 +114,8 @@ const MealDetails = () => {
             const res = await axiosSecure.patch(`/allMeals/${_id}`, upLike);
             console.log(res.data);
             if (res.data.modifiedCount > 0) {
-                e.target.reset();
-                if (!loading) {
+                // e.target.reset();
+                if (isPending) {
                     return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
                 }
             }
@@ -159,7 +155,6 @@ const MealDetails = () => {
             const res = await axiosSecure.post('/requestedMeals', reqMeals);
             console.log(res.data);
             if (res.data.insertedId) {
-                // reset();
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

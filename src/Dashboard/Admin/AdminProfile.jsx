@@ -1,21 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-import axios from "axios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 
 const AdminProfile = () => {
     const { users } = useContext(AuthContext);
     const [badgeInfo, setBadgeInfo] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axios.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
             .then(data => {
-                console.log(data.data);
                 const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
-                // console.log(tempUserData);
                 setBadgeInfo(tempUserData);
             })
-    }, [users?.email])
+    }, [axiosSecure, users?.email])
 
     return (
         <div className="py-16">

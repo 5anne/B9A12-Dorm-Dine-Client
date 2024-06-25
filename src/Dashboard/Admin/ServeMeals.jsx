@@ -4,14 +4,12 @@ import { FaServer } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const ServeMeals = () => {
-    // const [username, setusername] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const axiosSecure = useAxiosSecure();
-    // const axiosPublic = useAxiosPublic();
+
     const { data: reqMeals = [], refetch } = useQuery({
         queryKey: ['reqMeals'],
         queryFn: async () => {
@@ -23,18 +21,8 @@ const ServeMeals = () => {
     console.log(errors);
     console.log(reqMeals);
 
-    // const { data: usersNameData = [] } = useQuery({
-    //     queryKey: ['/usersNameData', username],
-    //     queryFn: async () => {
-    //         const res = await axiosSecure.get(`/requestedMeals/${username}`);
-    //         // console.log(res.data);
-    //         setUsersData(res.data);
-    //         return res.data;
-    //     }
-    // })
-
     const handleServe = async (data) => {
-        // data.preventDefault();
+
         console.log(data);
         const serveStatus = 'served';
         const serveData = {
@@ -72,11 +60,6 @@ const ServeMeals = () => {
 
     const onSubmit = (data, e) => {
         e.preventDefault();
-        // console.log(data);
-        // const uname = data.username;
-        // if (uname) {
-        //     setusername(uname);
-        // }
     }
 
     return (

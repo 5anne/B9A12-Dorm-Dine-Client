@@ -6,22 +6,22 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useMeal from "../../Hooks/useMeal";
 
 
 const UpcomingMeals = () => {
+    const [isPending] = useMeal();
     const [meals, setMeals] = useState([]);
     const [mealsData, setMealsData] = useState([]);
-    const [loading, setLoading] = useState(true);
     const { register, handleSubmit } = useForm();
     const { users } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     useEffect(() => {
-        axiosPublic.get('http://localhost:5000/upcomingMeals')
+        axiosPublic.get('https://dorm-dine-server-site.vercel.app/upcomingMeals')
             .then(data => {
                 setMeals(data.data);
                 setMealsData(data.data);
-                setLoading(false);
             })
     }, [axiosPublic])
     console.log(meals);
@@ -51,15 +51,16 @@ const UpcomingMeals = () => {
         const respons = await axiosSecure.delete(`/upcomingMeals/${meal._id}`);
         console.log(respons.data);
         if (res.data.insertedId) {
-            if (!loading) {
-                setLoading(true);
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${meal.title} is added to the All Meals.`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${meal.title} is added to the All Meals.`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            if (isPending) {
+                return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
             }
         }
     }
@@ -103,12 +104,10 @@ const UpcomingMeals = () => {
         console.log(filter);
         if (filter === 'all') {
             setMealsData(meals);
-            setLoading(true);
         }
         else if (filter === 'likes') {
-            const sortedData = meals.sort((a, b) => b.likes - a.likes);
+            const sortedData = meals?.sort((a, b) => b.likes - a.likes);
             setMealsData(sortedData);
-            setLoading(true);
         }
     }
 

@@ -6,7 +6,7 @@ import useMeal from "../../Hooks/useMeal";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AllReviews = () => {
-    const [meals, loading, refetch] = useMeal();
+    const [meals, isPending, refetch] = useMeal();
     const axiosSecure = useAxiosSecure();
 
     const handleDelete = (meal) => {
@@ -23,7 +23,7 @@ const AllReviews = () => {
                 const res = await axiosSecure.delete(`/allMeals/${meal._id}`);
                 console.log(res.data);
                 if (res.data.deletedCount > 0) {
-                    if (loading) {
+                    if (isPending) {
                         return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
                     }
                     refetch();

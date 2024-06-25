@@ -20,7 +20,7 @@ const Meals = () => {
 
     const handleSearch = e => {
         e.preventDefault();
-        console.log(e.target);
+
         const form = e.target;
         const search = form.search.value;
 

@@ -38,12 +38,12 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/meal/:_id",
                 element: <MealDetails></MealDetails>,
-                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params._id}`)
+                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/allMeals/${params._id}`)
             },
             {
                 path: "/checkout/:badge",
-                element: <CheckOut></CheckOut>,
-                loader: ({ params }) => fetch(`http://localhost:5000/premiumJson/${params.badge}`)
+                element: <PrivateRoute><CheckOut></CheckOut></PrivateRoute>,
+                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/premiumJson/${params.badge}`)
             },
             {
                 path: "/meals",
@@ -70,19 +70,19 @@ const AllRoutes = createBrowserRouter([
             //User
             {
                 path: "/dashboard/userProfile",
-                element: <UserProfile></UserProfile>
+                element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
             },
             {
                 path: "/dashboard/requestedMeals",
-                element: <RequestedMeals></RequestedMeals>
+                element: <PrivateRoute><RequestedMeals></RequestedMeals></PrivateRoute>
             },
             {
                 path: "/dashboard/myReviews",
-                element: <MyReviews></MyReviews>
+                element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
             },
             {
                 path: "/dashboard/paymentHistory",
-                element: <PaymentHistory></PaymentHistory>
+                element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
             },
             //Admin
             {
@@ -104,7 +104,7 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/dashboard/updateMeal/:id",
                 element: <AdminRoute><UpdateMeal></UpdateMeal></AdminRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params.id}`)
+                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/allMeals/${params.id}`)
             },
             {
                 path: "/dashboard/allReviews",

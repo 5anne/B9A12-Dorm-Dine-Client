@@ -11,11 +11,9 @@ const MyReviews = () => {
     const { users } = useContext(AuthContext);
     const [myData, setMyData] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/usersAct')
+        axios.get('https://dorm-dine-server-site.vercel.app/usersAct')
             .then(data => {
-                console.log(data.data);
                 const tempData = data.data?.filter(reviewData => reviewData?.user_email === users?.email);
-                console.log(tempData);
                 setMyData(tempData)
             })
     }, [users?.email])
@@ -34,10 +32,6 @@ const MyReviews = () => {
                 const res = await axios.delete(`/usersAct/${meal._id}`);
                 console.log(res.data);
                 if (res.data.deletedCount > 0) {
-                    // if (loading) {
-                    //     return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                    // }
-                    // refetch();
                     Swal.fire({
                         title: "Deleted!",
                         text: `${meal.title} has been deleted`,
