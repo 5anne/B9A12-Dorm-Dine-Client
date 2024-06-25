@@ -5,18 +5,25 @@ import { MdPublish } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 const UpcomingMeals = () => {
     const [meals, setMeals] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [mealsData, setMealsData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { register, handleSubmit } = useForm();
     const { users } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     useEffect(() => {
-        axiosSecure.get('http://localhost:5000/upcomingMeals')
-            .then(data => setMeals(data.data))
-    }, [axiosSecure])
+        axiosPublic.get('http://localhost:5000/upcomingMeals')
+            .then(data => {
+                setMeals(data.data);
+                setMealsData(data.data);
+                setLoading(false);
+            })
+    }, [axiosPublic])
     console.log(meals);
 
     const handlePublish = async (meal) => {
@@ -91,9 +98,31 @@ const UpcomingMeals = () => {
         }
     }
 
+    const handleSort = e => {
+        const filter = e.target.value;
+        console.log(filter);
+        if (filter === 'all') {
+            setMealsData(meals);
+            setLoading(true);
+        }
+        else if (filter === 'likes') {
+            const sortedData = meals.sort((a, b) => b.likes - a.likes);
+            setMealsData(sortedData);
+            setLoading(true);
+        }
+    }
+
     return (
         <div>
             <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-96 mx-auto mt-16">Upcoming Meals</h1>
+
+            <div className="flex gap-4 w-20 mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
+                <p>Sort</p>
+                <select onChange={handleSort} className="text-black" name="" id="">
+                    <option value="all">All</option>
+                    <option value="likes">Likes</option>
+                </select>
+            </div>
 
             <div className="overflow-x-auto ml-52 mt-16">
                 <table className="table">
@@ -105,6 +134,7 @@ const UpcomingMeals = () => {
                             <th>Admin</th>
                             <th>Description</th>
                             <th>Category</th>
+                            <th>Likes</th>
                             <th>Status</th>
                             <th>Price</th>
                             <th>Publish</th>
@@ -112,7 +142,7 @@ const UpcomingMeals = () => {
                     </thead>
                     <tbody>
                         {
-                            meals?.map((meal, idx) => <tr key={meal._id}>
+                            mealsData?.map((meal, idx) => <tr key={meal._id}>
                                 <th>
                                     {idx + 1}
                                 </th>
@@ -140,6 +170,7 @@ const UpcomingMeals = () => {
                                 <td>
                                     {meal.category}
                                 </td>
+                                <td>{meal.likes}</td>
                                 <td>{meal.status}</td>
                                 <td>{meal.price}</td>
                                 <th>
