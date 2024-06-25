@@ -79,6 +79,12 @@ const CheckoutForm = ({ price }) => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction Id', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
+                const userData = {
+                    name: users.displayName,
+                    email: users.email,
+                    photo: users.photoURL,
+                    userBadge: badgeData.badge
+                }
                 const payment = {
                     name: users.displayName,
                     email: users.email,
@@ -89,13 +95,15 @@ const CheckoutForm = ({ price }) => {
                 }
                 const res = await axiosSecure.post('/payments', payment);
                 console.log('Payment saved', res);
+                const resss = await axiosSecure.patch(`/userInfo/${users.email}`, userData);
+                console.log(resss.data);
                 if (res.data?.insertedId) {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Payment successfully done!!!",
+                        title: `Payment successfully done!!! YOU HAVE GOT {${badgeData.badge}} BADGE!!!`,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                     })
                 }
             }

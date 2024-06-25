@@ -65,8 +65,25 @@ const MealDetails = () => {
                     admin_email: admin_email
                 }
 
+                const postReview = {
+                    user_name: users.displayName,
+                    user_email: users.email,
+                    title: title,
+                    image: image,
+                    ingredients: ingredients,
+                    description: description,
+                    post_time: post_time,
+                    likes: likes,
+                    reviews: parseInt(reviews + 1),
+                    reviewText: reviewValue,
+                    status: status,
+                    admin_name: admin_name,
+                }
+
                 const res = await axiosPublic.patch(`/allMeals/${_id}`, upReview);
                 console.log(res.data);
+                axios.post('http://localhost:5000/usersAct', postReview)
+                    .then(data => console.log(data.data))
                 if (res.data.modifiedCount > 0) {
                     e.target.reset();
                     if (!loading) {
