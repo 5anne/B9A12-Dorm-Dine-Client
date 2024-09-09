@@ -38,12 +38,12 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/meal/:_id",
                 element: <MealDetails></MealDetails>,
-                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/allMeals/${params._id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params._id}`)
             },
             {
                 path: "/checkout/:badge",
                 element: <PrivateRoute><CheckOut></CheckOut></PrivateRoute>,
-                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/premiumJson/${params.badge}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/premiumJson/${params.badge}`)
             },
             {
                 path: "/meals",
@@ -104,7 +104,7 @@ const AllRoutes = createBrowserRouter([
             {
                 path: "/dashboard/updateMeal/:id",
                 element: <AdminRoute><UpdateMeal></UpdateMeal></AdminRoute>,
-                loader: ({ params }) => fetch(`https://dorm-dine-server-site.vercel.app/allMeals/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/allMeals/${params.id}`)
             },
             {
                 path: "/dashboard/allReviews",

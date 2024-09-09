@@ -9,11 +9,11 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 // import axios from "axios";
 import Swal from "sweetalert2";
-import useMeal from "../../Hooks/useMeal";
+// import useMeal from "../../Hooks/useMeal";
 
 
 const UpcomingMealsPage = () => {
-    const [isPending] = useMeal();
+    // const [isPending] = useMeal();
     const [meals, setMeals] = useState([]);
     const [badgeInfo, setBadgeInfo] = useState([]);
     const { users } = useContext(AuthContext);
@@ -21,17 +21,17 @@ const UpcomingMealsPage = () => {
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axiosPublic.get('https://dorm-dine-server-site.vercel.app/upcomingMeals')
+        axiosPublic.get('http://localhost:5000/upcomingMeals')
             .then(data => setMeals(data.data))
     }, [axiosPublic])
 
     useEffect(() => {
-        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosPublic.get('http://localhost:5000/userInfo')
             .then(data => {
                 const tempData = data.data?.find(user => user?.email === users?.email);
                 setBadgeInfo(tempData?.userBadge);
             })
-    }, [axiosSecure, users?.email])
+    }, [axiosPublic, users?.email])
 
 
     const handleLike = async (data) => {
@@ -57,9 +57,7 @@ const UpcomingMealsPage = () => {
 
             const res = await axiosSecure.patch(`/upcomingMeals/${data._id}`, upLike);
             if (res.data.modifiedCount > 0) {
-                if (isPending) {
-                    return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                }
+                location.reload();
             }
         }
         else {

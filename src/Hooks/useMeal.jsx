@@ -11,8 +11,6 @@ const useMeal = () => {
             return res.data;
         }
     })
-
-
     return [meals, loading, refetch]
 }
 

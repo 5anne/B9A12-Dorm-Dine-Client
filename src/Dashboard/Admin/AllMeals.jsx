@@ -8,15 +8,21 @@ import { useEffect, useState } from "react";
 
 const AllMeals = () => {
 
-    const [meals, loading, refetch] = useMeal();
+    const [loading, setLoading] = useState(false);
+    const [meals, refetch] = useMeal();
     const [mealsData, setMealsData] = useState([meals]);
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        fetch('https://dorm-dine-server-site.vercel.app/allMeals')
+        fetch('http://localhost:5000/allMeals')
             .then(res => res.json())
-            .then(data => setMealsData(data))
-    }, [])
+            .then(data => {
+                if (!loading) {
+                    setLoading(true);
+                }
+                setMealsData(data);
+            })
+    }, [loading])
 
     const handleDelete = (meal) => {
         Swal.fire({
@@ -32,15 +38,13 @@ const AllMeals = () => {
                 const res = await axiosSecure.delete(`/allMeals/${meal._id}`);
                 console.log(res.data);
                 if (res.data.deletedCount > 0) {
-                    if (loading) {
-                        return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                    }
                     refetch();
                     Swal.fire({
                         title: "Deleted!",
                         text: `${meal.title} has been deleted`,
                         icon: "success"
                     });
+
                 }
             }
         }

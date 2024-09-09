@@ -1,30 +1,44 @@
-// import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { MdPublish } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import useMeal from "../../Hooks/useMeal";
+import { useQuery } from "@tanstack/react-query";
 
 
 const UpcomingMeals = () => {
-    const [isPending] = useMeal();
-    const [meals, setMeals] = useState([]);
+
     const [mealsData, setMealsData] = useState([]);
     const { register, handleSubmit } = useForm();
     const { users } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
-    useEffect(() => {
-        axiosPublic.get('https://dorm-dine-server-site.vercel.app/upcomingMeals')
-            .then(data => {
-                setMeals(data.data);
-                setMealsData(data.data);
-            })
-    }, [axiosPublic])
-    console.log(meals);
+
+    const { data: meals = [], refetch } = useQuery({
+        queryKey: ['upcomingMeals'],
+        queryFn: async () => {
+            const result = await axiosPublic.get('/upcomingMeals');
+            setMealsData(result.data);
+            return result.data;
+        }
+    })
+
+    console.log(mealsData);
+
+    const handleSort = e => {
+        const filter = e.target.value;
+        console.log(filter);
+        if (filter === 'all') {
+            setMealsData(meals);
+        }
+        else if (filter === 'likes') {
+            const sortedData = meals?.sort((a, b) => b.likes - a.likes);
+            setMealsData(sortedData);
+            refetch();
+        }
+    }
 
     const handlePublish = async (meal) => {
         console.log(meal)
@@ -51,7 +65,7 @@ const UpcomingMeals = () => {
         const respons = await axiosSecure.delete(`/upcomingMeals/${meal._id}`);
         console.log(respons.data);
         if (res.data.insertedId) {
-
+            refetch();
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -59,9 +73,6 @@ const UpcomingMeals = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            if (isPending) {
-                return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-            }
         }
     }
 
@@ -88,6 +99,7 @@ const UpcomingMeals = () => {
         const res = await axiosSecure.post('/upcomingMeals', mealData);
         console.log(res.data);
         if (res.data.insertedId) {
+            refetch();
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -99,17 +111,6 @@ const UpcomingMeals = () => {
         }
     }
 
-    const handleSort = e => {
-        const filter = e.target.value;
-        console.log(filter);
-        if (filter === 'all') {
-            setMealsData(meals);
-        }
-        else if (filter === 'likes') {
-            const sortedData = meals?.sort((a, b) => b.likes - a.likes);
-            setMealsData(sortedData);
-        }
-    }
 
     return (
         <div>
@@ -197,14 +198,14 @@ const UpcomingMeals = () => {
                                         <label className="label">
                                             <span className="label-text">Title <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("title", { required: true })} type="text" placeholder="Title" className="input input-bordered" />
+                                        <input {...register("title", { required: true })} type="text" placeholder="Title" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Category <span className="text-red-700">*</span></span>
                                         </label>
-                                        <select {...register("category", { required: true })} type="text" className="input input-bordered">
+                                        <select {...register("category", { required: true })} type="text" className="input input-bordered rounded-none border-teal-900">
                                             <option value="Breakfast">Breakfast</option>
                                             <option value="Lunch">Lunch</option>
                                             <option value="Dinner">Dinner</option>
@@ -215,35 +216,35 @@ const UpcomingMeals = () => {
                                         <label className="label">
                                             <span className="label-text">Image <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("image", { required: true })} type="url" placeholder="https://i.postimg.cc" className="input input-bordered" />
+                                        <input {...register("image", { required: true })} type="url" placeholder="https://i.postimg.cc" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Ingredients <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("ingredients", { required: true })} type="text" placeholder="e.g - Chicken, Yogurt, Ginger-garlic paste,... etc" className="input input-bordered" />
+                                        <input {...register("ingredients", { required: true })} type="text" placeholder="e.g - Chicken, Yogurt, Ginger-garlic paste,... etc" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Description <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("description", { required: true })} type="text" placeholder="Description" className="input input-bordered" />
+                                        <input {...register("description", { required: true })} type="text" placeholder="Description" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Price ($)<span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("price", { required: true })} type="number" placeholder="100" className="input input-bordered" />
+                                        <input {...register("price", { required: true })} type="number" placeholder="100" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Rating <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("rating", { required: true })} type="number" placeholder="5" className="input input-bordered" />
+                                        <input {...register("rating", { required: true })} type="number" placeholder="5" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
                                 </div>
 
@@ -253,49 +254,49 @@ const UpcomingMeals = () => {
                                         <label className="label">
                                             <span className="label-text">Post Time <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("postTime", { required: true })} type="datetime-local" className="input input-bordered" />
+                                        <input {...register("postTime", { required: true })} type="datetime-local" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Likes <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("likes", { required: true })} type="number" placeholder="Likes" className="input input-bordered" />
+                                        <input {...register("likes", { required: true })} type="number" placeholder="Likes" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Reviews <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("reviews", { required: true })} type="number" placeholder="Reviews" className="input input-bordered" />
+                                        <input {...register("reviews", { required: true })} type="number" placeholder="Reviews" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Write Review</span>
                                         </label>
-                                        <input {...register("reviewText")} type="text" placeholder="Write reviews" className="input input-bordered" />
+                                        <input {...register("reviewText")} type="text" placeholder="Write reviews" className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Status</span>
                                         </label>
-                                        <input {...register("status")} type="text" placeholder="e.g - Available/Unavailable/Added/Upcoming/Requested/Served/..." className="input input-bordered" />
+                                        <input {...register("status")} type="text" placeholder="e.g - Available/Unavailable/Added/Upcoming/Requested/Served/..." className="input input-bordered rounded-none border-teal-900" />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Admin Name <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("adminName")} defaultValue={users?.displayName} className="input input-bordered" readOnly />
+                                        <input {...register("adminName")} defaultValue={users?.displayName} className="input input-bordered rounded-none border-teal-900" readOnly />
                                     </div>
 
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text">Admin Email <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("adminEmail")} defaultValue={users?.email} className="input input-bordered" readOnly />
+                                        <input {...register("adminEmail")} defaultValue={users?.email} className="input input-bordered rounded-none border-teal-900" readOnly />
                                     </div>
                                 </div>
                             </div>

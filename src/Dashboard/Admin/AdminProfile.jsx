@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 
 const AdminProfile = () => {
@@ -9,12 +10,21 @@ const AdminProfile = () => {
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosSecure.get('/userInfo')
             .then(data => {
                 const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
                 setBadgeInfo(tempUserData);
             })
-    }, [axiosSecure, users?.email])
+    }, [axiosSecure, users?.email]);
+
+    const { data: mealCount = [] } = useQuery({
+        queryKey: ['mealCount', users?.email],
+        queryFn: async () => {
+            const result = await axiosSecure.get(`/allMealsEmail/${users?.email}`);
+            console.log(result.data.length);
+            return result.data;
+        }
+    })
 
     return (
         <div className="py-16">
@@ -26,6 +36,7 @@ const AdminProfile = () => {
                     </div>
                     <p className="text-center"><span className="font-semibold">Name:</span> {users?.displayName}</p>
                     <p className="text-center"><span className="font-semibold">Email:</span> {users?.email}</p>
+                    <p className="text-center"><span className="font-semibold">Number of Meals Added:</span> {mealCount.length}</p>
                     <p className="text-center"><span className="font-semibold">Badge:</span> {badgeInfo?.userBadge}</p>
                 </div>
             </div>

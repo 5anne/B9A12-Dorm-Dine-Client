@@ -11,7 +11,7 @@ const RequestedMeals = () => {
     const { users } = useContext(AuthContext);
 
     useEffect(() => {
-        axiosSecure.get('https://dorm-dine-server-site.vercel.app/requestedMeals')
+        axiosSecure.get('http://localhost:5000/requestedMeals')
             .then(data => {
                 const tempData = data?.data?.filter(reqData => reqData?.user_email === users?.email)
                 setReqDetails(tempData);

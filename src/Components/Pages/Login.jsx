@@ -45,7 +45,7 @@ const Login = () => {
                 const photo = result?.user?.photoURL;
                 const userInfo = { name, email, photo, userBadge: 'Bronze' };
 
-                axios.post('https://dorm-dine-server-site.vercel.app/userInfo', userInfo)
+                axios.post('http://localhost:5000/userInfo', userInfo)
                     .then(data => console.log(data.data))
                 navigate(location?.state ? location.state : '/');
             })

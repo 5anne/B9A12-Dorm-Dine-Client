@@ -4,10 +4,17 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useMeal from "../../Hooks/useMeal";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
 
 const AllReviews = () => {
+    const [review, setReview] = useState([]);
     const [meals, isPending, refetch] = useMeal();
     const axiosSecure = useAxiosSecure();
+
+    useEffect(() => {
+        const result = meals?.filter(meal => meal.reviews > 0)
+        setReview(result);
+    }, [meals])
 
     const handleDelete = (meal) => {
         Swal.fire({
@@ -45,7 +52,7 @@ const AllReviews = () => {
             <div className="overflow-x-auto ml-52 mr-8 mt-12">
                 <table className="table table-xs table-pin-rows table-pin-cols">
                     <thead>
-                        <tr className="bg-blue-900 text-gray-300">
+                        <tr className="bg-green-800 text-gray-300">
                             <th></th>
                             <td>Title</td>
                             <td>Latest Review</td>
@@ -57,7 +64,7 @@ const AllReviews = () => {
                     </thead>
                     <tbody>
                         {
-                            meals?.map((meal, idx) =>
+                            review?.map((meal, idx) =>
                                 <tr key={idx}>
                                     <th>{idx + 1}</th>
                                     <td>{meal.title}</td>

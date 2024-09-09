@@ -11,7 +11,7 @@ const MyReviews = () => {
     const { users } = useContext(AuthContext);
     const [myData, setMyData] = useState([]);
     useEffect(() => {
-        axios.get('https://dorm-dine-server-site.vercel.app/usersAct')
+        axios.get('http://localhost:5000/usersAct')
             .then(data => {
                 const tempData = data.data?.filter(reviewData => reviewData?.user_email === users?.email);
                 setMyData(tempData)

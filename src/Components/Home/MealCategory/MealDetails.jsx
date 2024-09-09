@@ -10,11 +10,11 @@ import axios from "axios";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import useMeal from "../../../Hooks/useMeal";
+// import useMeal from "../../../Hooks/useMeal";
 
 
 const MealDetails = () => {
-    const [isPending] = useMeal();
+    // const [isPending] = useMeal();
     const { users } = useContext(AuthContext);
     const [usersData, setUsersData] = useState(false);
     const [badgeInfo, setBadgeInfo] = useState([])
@@ -26,7 +26,7 @@ const MealDetails = () => {
     const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name, admin_email } = details;
 
     useEffect(() => {
-        axiosSecure.get('https://dorm-dine-server-site.vercel.app/userInfo')
+        axiosSecure.get('http://localhost:5000/userInfo')
             .then(data => {
                 const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
                 setBadgeInfo(tempUserData);
@@ -78,13 +78,11 @@ const MealDetails = () => {
 
                 const res = await axiosPublic.patch(`/allMeals/${_id}`, upReview);
                 console.log(res.data);
-                axios.post('https://dorm-dine-server-site.vercel.app/usersAct', postReview)
+                axios.post('http://localhost:5000/usersAct', postReview)
                     .then(data => console.log(data.data))
                 if (res.data.modifiedCount > 0) {
                     e.target.reset();
-                    if (isPending) {
-                        return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                    }
+                    location.reload();
                 }
             }
         }
@@ -115,9 +113,7 @@ const MealDetails = () => {
             console.log(res.data);
             if (res.data.modifiedCount > 0) {
                 // e.target.reset();
-                if (isPending) {
-                    return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                }
+                location.reload();
             }
         }
         else {

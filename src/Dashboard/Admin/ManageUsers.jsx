@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { FaUser } from "react-icons/fa";
 import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 const ManageUsers = () => {
@@ -10,7 +9,6 @@ const ManageUsers = () => {
     const [useremail, setuseremail] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const axiosSecure = useAxiosSecure();
-    const { register, handleSubmit, formState: { errors } } = useForm();
     const { data: allUsers = [], refetch } = useQuery({
         queryKey: ['allUsers'],
         queryFn: async () => {
@@ -19,7 +17,6 @@ const ManageUsers = () => {
             return res.data;
         }
     })
-    console.log(errors);
 
     const { data: usersNameData = [] } = useQuery({
         queryKey: ['/usersNameData', username],
@@ -33,7 +30,8 @@ const ManageUsers = () => {
     const { data: usersEmailData = [] } = useQuery({
         queryKey: ['/usersEmailData', useremail],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/userInfo/${useremail}`);
+            const res = await axiosSecure.get(`/userInfoEmail/${useremail}`);
+            console.log(res.data);
             setUsersData(res.data);
             return res.data;
         }
@@ -41,13 +39,19 @@ const ManageUsers = () => {
     console.log(usersNameData);
     console.log(usersEmailData);
 
-    const onSubmit = (data, e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const uname = data.username;
-        const uemail = data.useremail;
+        const uname = e.target.username.value;
         if (uname) {
             setusername(uname);
         }
+
+    }
+
+    const handleSubmitEmail = e => {
+        e.preventDefault();
+        const uemail = e.target.useremail.value;
+        console.log(uemail)
         if (uemail) {
             setuseremail(uemail);
         }
@@ -77,10 +81,11 @@ const ManageUsers = () => {
                 <div className="flex justify-center w-full my-10">
                     <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-1/3 mx-auto ">Total Users: {allUsers.length}</h1>
                 </div>
-                <div >
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-12 w-10/12 mx-auto ml-80 mb-12" action="">
+                <div className="flex gap-12 w-10/12 mx-auto ml-80 mb-12">
+                    <form onSubmit={handleSubmit} className="" action="">
                         <label className="input input-bordered flex items-center gap-2">
-                            <input  {...register("username")} type="text" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
+                            <input type="text" name="username" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
+
                             <button type="submit" className=""><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
@@ -91,9 +96,10 @@ const ManageUsers = () => {
                                     d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
                                     clipRule="evenodd" />
                             </svg></button>
-                        </label>
+                        </label></form>
+                    <form onSubmit={handleSubmitEmail} className="" action="">
                         <label className="input input-bordered flex items-center gap-2">
-                            <input  {...register("useremail")} type="email" placeholder="Search by Useremail" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
+                            <input type="text" name="useremail" placeholder="Search by Useremail" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
                             <button type="submit" className=""><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
