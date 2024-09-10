@@ -2,19 +2,21 @@ import { FaTrashAlt } from "react-icons/fa";
 import { FcViewDetails } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useMeal from "../../Hooks/useMeal";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const AllReviews = () => {
-    const [review, setReview] = useState([]);
-    const [meals, isPending, refetch] = useMeal();
+
     const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
-        const result = meals?.filter(meal => meal.reviews > 0)
-        setReview(result);
-    }, [meals])
+    const { data: reviewData = [], refetch } = useQuery({
+        queryKey: ['reviewData'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/usersAct');
+            console.log(res.data);
+            return res.data;
+        }
+    })
 
     const handleDelete = (meal) => {
         Swal.fire({
@@ -27,12 +29,9 @@ const AllReviews = () => {
             confirmButtonText: "Yes, delete it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await axiosSecure.delete(`/allMeals/${meal._id}`);
+                const res = await axiosSecure.delete(`/usersAct/${meal._id}`);
                 console.log(res.data);
                 if (res.data.deletedCount > 0) {
-                    if (isPending) {
-                        return <div className="flex justify-center mt-20"><span className="loading loading-ring loading-lg"></span></div>
-                    }
                     refetch();
                     Swal.fire({
                         title: "Deleted!",
@@ -53,7 +52,8 @@ const AllReviews = () => {
                 <table className="table table-xs table-pin-rows table-pin-cols">
                     <thead>
                         <tr className="bg-green-800 text-gray-300">
-                            <th></th>
+                            <td></td>
+                            <td>User Info</td>
                             <td>Title</td>
                             <td>Latest Review</td>
                             <td>Likes</td>
@@ -64,15 +64,20 @@ const AllReviews = () => {
                     </thead>
                     <tbody>
                         {
-                            review?.map((meal, idx) =>
+                            reviewData?.map((meal, idx) =>
                                 <tr key={idx}>
-                                    <th>{idx + 1}</th>
+                                    <td>{idx + 1}</td>
+                                    <td>
+                                        {meal.user_name}
+                                        <br />
+                                        <span className="badge badge-ghost badge-sm">{meal.user_email}</span>
+                                    </td>
                                     <td>{meal.title}</td>
                                     <td>{meal.reviewText}</td>
                                     <td>{meal.likes}</td>
                                     <td>{meal.reviews}</td>
                                     <td><button onClick={() => handleDelete(meal)} className="btn flex justify-center"><FaTrashAlt></FaTrashAlt></button></td>
-                                    <td><Link to={`/meal/${meal._id}`}><button className="btn flex justify-center"><FcViewDetails /></button></Link></td>
+                                    <td><Link to={`/meal/${meal.meals_id}`}><button className="btn flex justify-center"><FcViewDetails /></button></Link></td>
                                 </tr>
                             )
                         }

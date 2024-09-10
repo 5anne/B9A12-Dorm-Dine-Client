@@ -7,6 +7,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 const Dashboard = () => {
     const { users } = useContext(AuthContext);
     const [isAdmin] = useAdmin();
+    console.log(isAdmin);
 
     return (
         <div className="flex">

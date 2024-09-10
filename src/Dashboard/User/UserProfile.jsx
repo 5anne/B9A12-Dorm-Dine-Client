@@ -1,22 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const UserProfile = () => {
     const { users } = useContext(AuthContext);
-    const [badgeInfo, setBadgeInfo] = useState([])
     const axiosSecure = useAxiosSecure();
-    // const axiosPublic = useAxiosPublic();
 
-    useEffect(() => {
-        axiosSecure.get('http://localhost:5000/userInfo')
-            .then(data => {
-                console.log(data.data);
-                const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
-                setBadgeInfo(tempUserData);
-            })
-    }, [axiosSecure, users?.email])
+    const { data: badgeInfo = [] } = useQuery({
+        queryKey: ['badgeInfo', users?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/userInfoEmail/${users?.email}`);
+            console.log(res.data[0]);
+            return res.data[0];
+        }
+    })
 
     return (
         <div className="py-16">

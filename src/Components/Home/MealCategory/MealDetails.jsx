@@ -6,21 +6,17 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import axios from "axios";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-// import useMeal from "../../../Hooks/useMeal";
 
 
 const MealDetails = () => {
-    // const [isPending] = useMeal();
+
     const { users } = useContext(AuthContext);
     const [usersData, setUsersData] = useState(false);
     const [badgeInfo, setBadgeInfo] = useState([])
     const details = useLoaderData();
     const axiosSecure = useAxiosSecure();
-    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
 
     const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name, admin_email } = details;
@@ -62,6 +58,7 @@ const MealDetails = () => {
                 }
 
                 const postReview = {
+                    meals_id: _id,
                     user_name: users.displayName,
                     user_email: users.email,
                     title: title,
@@ -74,15 +71,21 @@ const MealDetails = () => {
                     reviewText: reviewValue,
                     status: status,
                     admin_name: admin_name,
+                    admin_email: admin_email
                 }
 
-                const res = await axiosPublic.patch(`/allMeals/${_id}`, upReview);
+                const res = await axiosSecure.patch(`/allMeals/${_id}`, upReview);
                 console.log(res.data);
-                axios.post('http://localhost:5000/usersAct', postReview)
-                    .then(data => console.log(data.data))
-                if (res.data.modifiedCount > 0) {
-                    e.target.reset();
+                const result = await axiosSecure.post('/usersAct', postReview)
+                if (res.data.modifiedCount > 0 && result.data.insertedId) {
                     location.reload();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: 'Review posted successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
             }
         }
@@ -90,7 +93,6 @@ const MealDetails = () => {
 
     const handleLike = async (e) => {
         console.log(e);
-        // e.preventDefault();
         if (users) {
             const upLike = {
                 title: title,
