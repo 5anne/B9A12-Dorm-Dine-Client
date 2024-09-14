@@ -56,8 +56,8 @@ const AddMeal = () => {
     }
 
     return (
-        <div className="flex flex-col pt-16 bg-teal-800 w-2/3 mx-auto">
-            <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-52 mx-auto">Add Meal</h1>
+        <div className="flex flex-col pt-16 w-9/12 mx-auto">
+            <h1 className="text-center font-semibold text-4xl border-y-2 border-teal-900 border-dashed py-4 w-96 mx-auto">Add Meal</h1>
             <div className="mt-12">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex justify-center gap-10">

@@ -1,11 +1,11 @@
-
+import logoImg from "../../assets/takeaway_1392728.png";
 
 const Footer = () => {
     return (
         <div className="mt-28">
             <footer className="footer grid-rows-2 p-10 bg-black text-neutral-content">
                 <nav>
-                    <img className="w-12 rounded-full" src="https://i.postimg.cc/8cp7fDtp/baking-bread-abstract-concept-illustration-quarantine-cooking-family-recipe-baking-yeast-335657-1062.jpg" alt="" />
+                    <img className="w-12 " src={logoImg} alt="" />
                     <h6 className="font-bold text-2xl text-white">Dorm Dine</h6>
                     <p className="border-[1px] w-44 border-gray-400 border-dashed"></p>
                     <a className="link link-hover">Wigglesworth Hall, Harvard University</a>

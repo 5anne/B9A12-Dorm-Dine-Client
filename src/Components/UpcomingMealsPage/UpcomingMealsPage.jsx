@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Navbar from "../Shared/Navbar";
 import Footer from "../Shared/Footer";
@@ -7,36 +7,36 @@ import { FaStar, FaThumbsUp } from "react-icons/fa";
 import SectionTitle from "../Home/DietBlog/SectionTitle";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-// import axios from "axios";
 import Swal from "sweetalert2";
-// import useMeal from "../../Hooks/useMeal";
+import { useQuery } from "@tanstack/react-query";
 
 
 const UpcomingMealsPage = () => {
-    // const [isPending] = useMeal();
-    const [meals, setMeals] = useState([]);
-    const [badgeInfo, setBadgeInfo] = useState([]);
+
     const { users } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
-        axiosPublic.get('http://localhost:5000/upcomingMeals')
-            .then(data => setMeals(data.data))
-    }, [axiosPublic])
+    const { data: meals = [], refetch } = useQuery({
+        queryKey: ['meals'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/upcomingMeals');
+            return res.data;
+        }
+    })
 
-    useEffect(() => {
-        axiosPublic.get('http://localhost:5000/userInfo')
-            .then(data => {
-                const tempData = data.data?.find(user => user?.email === users?.email);
-                setBadgeInfo(tempData?.userBadge);
-            })
-    }, [axiosPublic, users?.email])
-
+    const { data: badgeInfo = [] } = useQuery({
+        queryKey: ['badgeInfo', users?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/userInfoEmail/${users?.email}`);
+            console.log(res.data[0]);
+            return res.data[0];
+        }
+    })
 
     const handleLike = async (data) => {
 
-        if (badgeInfo === 'Platinum' || badgeInfo === 'Gold' || badgeInfo === 'Silver') {
+        if (badgeInfo?.userBadge === 'Platinum' || badgeInfo?.userBadge === 'Gold' || badgeInfo?.userBadge === 'Silver') {
             console.log('Inside');
             const upLike = {
                 title: data.title,
@@ -57,7 +57,7 @@ const UpcomingMealsPage = () => {
 
             const res = await axiosSecure.patch(`/upcomingMeals/${data._id}`, upLike);
             if (res.data.modifiedCount > 0) {
-                location.reload();
+                refetch();
             }
         }
         else {

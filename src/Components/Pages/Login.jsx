@@ -60,18 +60,18 @@ const Login = () => {
                 <title>Dorm Dine ~ Login</title>
             </Helmet>
             <Navbar></Navbar>
-            <div className="pt-48 ">
-                <div className="flex justify-center bg-black bg-opacity-30 w-1/2 p-8 mx-auto shadow-2xl">
+            <div className="pt-48">
+                <div className="flex justify-center bg-red-950 bg-opacity-50 w-1/2 p-8 mx-auto shadow-2xl">
 
                     <form onSubmit={handleSubmit(handleSignIn)} className="">
                         <h1 className="text-2xl text-center font-bold">Login Now!</h1> <br />
 
-                        <input {...register("email", { required: true })} type="email" placeholder="Email" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("email", { required: true })} type="email" placeholder="Email" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.email && <span className="text-red-700">Email is required</span>}
 
-                        <input {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d)[a-zA-Z\d]+/ })} type="password" placeholder="******" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d)[a-zA-Z\d]+/ })} type="password" placeholder="******" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
 
-                        <input className="bg-blue-800 text-white p-2 rounded-2xl hover:bg-blue-600 my-2 w-full" type="submit" />
+                        <input className="bg-[#480607] text-white p-2 rounded-2xl hover:bg-[#4806074D] my-2 w-full" type="submit" />
                         <p className="link link-hover text-center text-base font-semibold my-2">Forgot password?</p>
                         <div>
                             {

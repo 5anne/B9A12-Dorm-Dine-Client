@@ -36,7 +36,6 @@ const UpcomingMeals = () => {
         else if (filter === 'likes') {
             const sortedData = meals?.sort((a, b) => b.likes - a.likes);
             setMealsData(sortedData);
-            refetch();
         }
     }
 
@@ -62,14 +61,14 @@ const UpcomingMeals = () => {
 
         const res = await axiosSecure.post('/allMeals', mealData);
         console.log(res.data);
-        const respons = await axiosSecure.delete(`/upcomingMeals/${meal._id}`);
-        console.log(respons.data);
-        if (res.data.insertedId) {
+        const response = await axiosSecure.delete(`/upcomingMeals/${meal._id}`);
+        console.log(response.data);
+        if (res.data.insertedId && response.data.deletedCount > 0) {
             refetch();
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: `${meal.title} is added to the All Meals.`,
+                title: `${meal.title} has been added to the All Meals.`,
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -113,21 +112,21 @@ const UpcomingMeals = () => {
 
 
     return (
-        <div>
-            <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-96 mx-auto mt-16">Upcoming Meals</h1>
+        <div className="w-9/12 mx-auto mt-16">
+            <h1 className="text-center font-semibold text-4xl border-y-2 border-teal-900 border-dashed py-4 w-96 mx-auto">Upcoming Meals</h1>
 
-            <div className="flex gap-4 w-20 mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
+            <div className="flex gap-4 w-20 mx-auto text-gray-500 my-8 border-2 p-1 border-teal-900">
                 <p>Sort</p>
-                <select onChange={handleSort} className="text-black" name="" id="">
+                <select onChange={handleSort} className="text-black bg-[#b94e48] bg-opacity-30" name="" id="">
                     <option value="all">All</option>
                     <option value="likes">Likes</option>
                 </select>
             </div>
 
-            <div className="overflow-x-auto ml-52 mt-16">
+            <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
-                    <thead className="bg-green-800 text-gray-300">
+                    <thead className="bg-green-900 text-gray-300">
                         <tr>
                             <th></th>
                             <th>Title</th>
@@ -174,7 +173,7 @@ const UpcomingMeals = () => {
                                 <td>{meal.status}</td>
                                 <td>{meal.price}</td>
                                 <th>
-                                    <button onClick={() => handlePublish(meal)} className="btn text-xl hover:bg-green-800"><MdPublish /></button>
+                                    <button onClick={() => handlePublish(meal)} className="btn border-none text-xl bg-[#b94e48] bg-opacity-30 hover:bg-[#b94e48]"><MdPublish /></button>
                                 </th>
                             </tr>)
                         }
@@ -183,13 +182,13 @@ const UpcomingMeals = () => {
                 </table>
             </div>
 
-            <div className="flex justify-center my-10"><button className="btn bg-green-800 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Upcoming Meal</button></div>
+            <div className="flex justify-center my-10"><button className="btn bg-green-900 text-white" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Upcoming Meal</button></div>
             <dialog id="my_modal_3" className="modal">
                 <div className="modal-box">
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost bg-black text-white absolute right-2 top-2">✕</button>
                     </form>
-                    <h1 className="text-center font-semibold text-2xl border-b-2 border-yellow-500 pb-4 w-96 mx-auto mt-8">Add an Upcoming Meal</h1>
+                    <h1 className="text-center font-semibold text-2xl border-y-2 border-yellow-500 border-dashed py-4 w-96 mx-auto mt-8">Add an Upcoming Meal</h1>
                     <div className="mt-12">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="">

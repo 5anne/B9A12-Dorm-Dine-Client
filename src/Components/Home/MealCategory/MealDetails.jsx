@@ -51,7 +51,7 @@ const MealDetails = () => {
                     post_time: post_time,
                     likes: parseInt(likes),
                     reviews: parseInt(reviews + 1),
-                    reviewText: reviewValue,
+                    reviewText: reviewText,
                     status: status,
                     admin_name: admin_name,
                     admin_email: admin_email
@@ -66,7 +66,7 @@ const MealDetails = () => {
                     ingredients: ingredients,
                     description: description,
                     post_time: post_time,
-                    likes: likes,
+                    likes: parseInt(likes),
                     reviews: parseInt(reviews + 1),
                     reviewText: reviewValue,
                     status: status,

@@ -1,71 +1,107 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Hooks/useAdmin";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
+import { FaUser, FaUsers } from "react-icons/fa6";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { MdFastfood, MdFoodBank, MdLogout, MdNoFood, MdOutlineRateReview, MdPayment, MdRateReview } from "react-icons/md";
+import { IoFastFoodSharp } from "react-icons/io5";
+import { GiHotMeal } from "react-icons/gi";
+import { FaHome } from "react-icons/fa";
 
 
 const Dashboard = () => {
-    const { users } = useContext(AuthContext);
+    const { users, logOut } = useContext(AuthContext);
     const [isAdmin] = useAdmin();
     console.log(isAdmin);
 
+    const handleLogOut = () => {
+        logOut()
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }
+
     return (
         <div className="flex">
-            <div className="drawer lg:drawer-open w-32">
+            <div className="drawer lg:drawer-open w-1/4">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col items-center justify-center">
                     <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open Dashboard</label>
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                    <ul className="menu p-4 w-80 min-h-full bg-[#800000] bg-opacity-70 text-white">
                         {
                             isAdmin ?
                                 <>
                                     <li>
-                                        <NavLink to="/">Home</NavLink>
-                                    </li>
-                                    <li>
                                         {
-                                            users && isAdmin && <NavLink to="/dashboard/adminProfile">Admin Profile</NavLink>
+                                            users && isAdmin && <NavLink to="/dashboard/adminProfile"><FaUser></FaUser>Admin Profile</NavLink>
                                         }
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
+                                        <NavLink to="/dashboard/manageUsers"><FaUsers></FaUsers>Manage Users</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/addMeal">Add Meal</NavLink>
+                                        <NavLink to="/dashboard/addMeal"><IoMdAddCircleOutline />Add Meal</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/allMeals">All Meals</NavLink>
+                                        <NavLink to="/dashboard/allMeals"><MdFastfood />All Meals</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/allReviews">All Reviews</NavLink>
+                                        <NavLink to="/dashboard/allReviews"><MdOutlineRateReview />All Reviews</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/serveMeals">Serve Meals</NavLink>
+                                        <NavLink to="/dashboard/serveMeals"><GiHotMeal />Serve Meals</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/upcomingMeals">Upcoming Meals</NavLink>
+                                        <NavLink to="/dashboard/upcomingMeals"><IoFastFoodSharp />Upcoming Meals</NavLink>
+                                    </li>
+                                    <div className="divider"></div>
+                                    <li>
+                                        <NavLink to="/"><FaHome></FaHome>Home</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/meals"><MdNoFood />Meals</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/upcomingMeals"><MdFoodBank />Upcoming Meals</NavLink>
+                                    </li>
+                                    <li>
+                                        <Link to="/login"><div className=""><button onClick={handleLogOut} className="flex items-center gap-2"><MdLogout />Log Out</button></div></Link>
                                     </li>
                                 </> :
                                 <>
                                     <li>
-                                        <NavLink to="/">Home</NavLink>
-                                    </li>
-                                    <li>
                                         {
-                                            users && !isAdmin && <NavLink to="/dashboard/userProfile">User Profile</NavLink>
+                                            users && !isAdmin && <NavLink to="/dashboard/userProfile"><FaUser></FaUser>User Profile</NavLink>
                                         }
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/requestedMeals">Requested Meals</NavLink>
+                                        <NavLink to="/dashboard/requestedMeals"><MdFastfood />Requested Meals</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/myReviews">My Reviews</NavLink>
+                                        <NavLink to="/dashboard/myReviews"><MdRateReview />My Reviews</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
+                                        <NavLink to="/dashboard/paymentHistory"><MdPayment />Payment History</NavLink>
+                                    </li>
+                                    <div className="divider"></div>
+                                    <li>
+                                        <NavLink to="/"><FaHome></FaHome>Home</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/meals"><MdNoFood />Meals</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/upcomingMeals"><MdFoodBank />Upcoming Meals</NavLink>
+                                    </li>
+                                    <li>
+                                        <Link to="/login"><div className=""><button onClick={handleLogOut} className="flex items-center gap-2"><MdLogout />Log Out</button></div></Link>
                                     </li>
                                 </>
                         }
@@ -73,7 +109,7 @@ const Dashboard = () => {
 
                 </div>
             </div>
-            <div className="w-full">
+            <div className="w-full bg-[#87624c] bg-opacity-50">
                 <Outlet></Outlet>
             </div>
         </div>

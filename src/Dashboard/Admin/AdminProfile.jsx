@@ -28,7 +28,7 @@ const AdminProfile = () => {
 
     return (
         <div className="py-16">
-            <div className="bg-slate-300 shadow-xl p-8 w-1/2 mx-auto">
+            <div className="bg-green-950 bg-opacity-40 shadow-xl p-8 w-1/2 mx-auto">
                 <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-52 mx-auto">My Profile</h1>
                 <div>
                     <div className="flex justify-center rounded-full my-8">

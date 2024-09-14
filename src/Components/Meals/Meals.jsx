@@ -1,22 +1,25 @@
 import { Helmet } from "react-helmet";
 import Navbar from "../Shared/Navbar";
 import Footer from "../Shared/Footer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 
 const Meals = () => {
-    const [mealsData, setMealsData] = useState([]);
+
+    const axiosSecure = useAxiosSecure();
     const [displayMealsData, setDisplayMealsData] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/allMeals')
-            .then(res => res.json())
-            .then(data => {
-                setMealsData(data);
-                setDisplayMealsData(data);
-            })
-    }, [])
+    const { data: mealsData = [] } = useQuery({
+        queryKey: ['mealsData'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/allMeals');
+            setDisplayMealsData(res.data);
+            return res.data;
+        }
+    })
 
     const handleSearch = e => {
         e.preventDefault();
@@ -33,6 +36,8 @@ const Meals = () => {
 
     const handleFilter = e => {
         const filter = e.target.value;
+        // console.log(filter);
+        // console.log(typeof (parseInt(filter)));
         if (filter === 'All') {
             setDisplayMealsData(mealsData);
         }
@@ -46,6 +51,18 @@ const Meals = () => {
         }
         else if (filter === 'Dinner') {
             const filteredMeals = mealsData?.filter(mealData => mealData.category === filter);
+            setDisplayMealsData(filteredMeals);
+        }
+        else if (filter === '500') {
+            const filteredMeals = mealsData?.filter(mealData => mealData.price <= parseInt(filter));
+            setDisplayMealsData(filteredMeals);
+        }
+        else if (filter === '1500') {
+            const filteredMeals = mealsData?.filter(mealData => mealData.price >= 501 && mealData.price <= parseInt(filter));
+            setDisplayMealsData(filteredMeals);
+        }
+        else if (filter === '1501') {
+            const filteredMeals = mealsData?.filter(mealData => mealData.price >= parseInt(filter));
             setDisplayMealsData(filteredMeals);
         }
     }
@@ -66,11 +83,17 @@ const Meals = () => {
             </div>
             <div className="flex gap-4 w-20 mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
                 <p>Filter</p>
-                <select onChange={handleFilter} className="text-black" name="" id="">
-                    <option value="All">All</option>
+                <select onChange={handleFilter} className="text-black border-2 p-1 border-teal-900" name="" id="">
+                    <option value="All">By Category</option>
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
                     <option value="Dinner">Dinner</option>
+                </select>
+                <select onChange={handleFilter} className="text-black border-2 p-1 border-teal-900" name="" id="">
+                    <option value="All">By Price-range</option>
+                    <option value="500">$0 - $500</option>
+                    <option value="1500">$501 - $1500</option>
+                    <option value="1501">$1501 - Above</option>
                 </select>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-32">
@@ -86,12 +109,6 @@ const Meals = () => {
                             <p className="flex gap-2 items-center"><span className="font-semibold text-gray-950">Rating: </span>{mealData.rating}<FaStar /></p>
                         </div>
                         <h2 className="font-semibold text-gray-950">Reviews: {mealData.reviews}</h2>
-                        {/* <h2 className="font-semibold text-gray-950">Ingredients:</h2> */}
-                        {
-                            // mealData?.ingredients?.map((ingredient, idx) => <div key={idx} className="text-gray-600 flex">
-                            //     <p>{ingredient}</p>
-                            // </div>)
-                        }
                         <p className="font-bold">#admin: {mealData.admin_name}</p>
                     </div>)
                 }

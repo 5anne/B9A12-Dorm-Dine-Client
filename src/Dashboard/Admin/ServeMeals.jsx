@@ -3,7 +3,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { FaServer } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useState } from "react";
-// import { useForm } from "react-hook-form";
+import SectionTitle from "../../Components/Home/DietBlog/SectionTitle";
 
 const ServeMeals = () => {
     const [username, setusername] = useState([]);
@@ -19,8 +19,9 @@ const ServeMeals = () => {
             return res.data;
         }
     })
-    // console.log(errors);
+
     console.log(reqMeals);
+
     const { data: usersNameData = [] } = useQuery({
         queryKey: ['/usersNameData', username],
         queryFn: async () => {
@@ -99,71 +100,75 @@ const ServeMeals = () => {
     }
 
     return (
-        <div>
-            <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-96 mx-auto mt-16">All Requested Meals</h1>
+        <>
+            <SectionTitle
+                subHeading="meals"
+                heading="All Requested Meals"
+            ></SectionTitle>
+            <div className="w-9/12 mx-auto">
+                <div className="flex justify-evenly">
+                    <form onSubmit={handleSubmit} className="" action="">
+                        <label className="input input-bordered flex items-center gap-2">
+                            <input type="text" name="username" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
 
-            <div className="flex gap-12 w-10/12 mx-auto mt-10 ml-80 mb-12">
-                <form onSubmit={handleSubmit} className="" action="">
-                    <label className="input input-bordered flex items-center gap-2">
-                        <input type="text" name="username" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
+                            <button type="submit" className=""><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="h-4 w-4 opacity-70">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                    clipRule="evenodd" />
+                            </svg></button>
+                        </label></form>
+                    <form onSubmit={handleSubmitEmail} className="" action="">
+                        <label className="input input-bordered flex items-center gap-2">
+                            <input type="text" name="useremail" placeholder="Search by Useremail" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
+                            <button type="submit" className=""><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="h-4 w-4 opacity-70">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                    clipRule="evenodd" />
+                            </svg></button>
+                        </label>
+                    </form>
+                </div>
 
-                        <button type="submit" className=""><svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                            className="h-4 w-4 opacity-70">
-                            <path
-                                fillRule="evenodd"
-                                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                                clipRule="evenodd" />
-                        </svg></button>
-                    </label></form>
-                <form onSubmit={handleSubmitEmail} className="" action="">
-                    <label className="input input-bordered flex items-center gap-2">
-                        <input type="text" name="useremail" placeholder="Search by Useremail" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
-                        <button type="submit" className=""><svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                            className="h-4 w-4 opacity-70">
-                            <path
-                                fillRule="evenodd"
-                                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                                clipRule="evenodd" />
-                        </svg></button>
-                    </label>
-                </form>
+                <div className="overflow-x-auto mt-8">
+                    <table className="table table-xs table-pin-rows table-pin-cols">
+                        <thead className="text-gray-950 p-2">
+                            <tr className="bg-emerald-950 text-gray-300">
+                                <td></td>
+                                <td>Title</td>
+                                <td>User Name</td>
+                                <td>User Email</td>
+                                <td>Status</td>
+                                <td>Serve</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                usersData?.map((meal, idx) =>
+                                    <tr key={idx}>
+                                        <td>{idx + 1}</td>
+                                        <td>{meal.title}</td>
+                                        <td>{meal.user_name}</td>
+                                        <td>{meal.user_email}</td>
+                                        <td className="text-red-700">{meal.status}</td>
+                                        <td><button onClick={() => handleServe(meal)} className="btn flex justify-center"><FaServer></FaServer></button></td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div className="overflow-x-auto ml-52 mr-8 mt-12">
-                <table className="table table-xs table-pin-rows table-pin-cols">
-                    <thead className="text-gray-950 p-2">
-                        <tr className="bg-red-800 text-gray-300">
-                            <th></th>
-                            <td>Title</td>
-                            <td>User Name</td>
-                            <td>User Email</td>
-                            <td>Status</td>
-                            <td>Serve</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            usersData?.map((meal, idx) =>
-                                <tr key={idx}>
-                                    <th>{idx + 1}</th>
-                                    <td>{meal.title}</td>
-                                    <td>{meal.user_name}</td>
-                                    <td>{meal.user_email}</td>
-                                    <td className="text-red-700">{meal.status}</td>
-                                    <td><button onClick={() => handleServe(meal)} className="btn flex justify-center"><FaServer></FaServer></button></td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        </>
     );
 };
 

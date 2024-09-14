@@ -93,27 +93,27 @@ const Register = () => {
             </Helmet>
             <Navbar></Navbar>
             <div className="pt-48 ">
-                <div className="flex justify-center bg-black bg-opacity-30 w-1/2 p-8 mx-auto shadow-2xl">
+                <div className="flex justify-center bg-red-950 bg-opacity-50 w-1/2 p-8 mx-auto shadow-2xl">
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
                         <h1 className="text-2xl text-center font-bold">Register Now!</h1> <br />
 
-                        <input {...register("name", { required: true })} type="text" placeholder="Name" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("name", { required: true })} type="text" placeholder="Name" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.name && <span className="text-red-700">Name is required</span>}
 
-                        <input {...register("photo", { required: true })} type="url" placeholder="https://i.postimg.cc" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("photo", { required: true })} type="url" placeholder="https://i.postimg.cc" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.photo && <span className="text-red-700">photo is required</span>}
 
-                        <input {...register("email", { required: true })} type="email" placeholder="Email" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("email", { required: true })} type="email" placeholder="Email" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.email && <span className="text-red-700">Email is required</span>}
 
-                        <input {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d)[a-zA-Z\d]+/ })} type="password" placeholder="******" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&*])(?=.*\d)[a-zA-Z\d]+/ })} type="password" placeholder="******" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.password?.type === 'required' && <p className="text-red-700">Password is Required</p>}
                         {errors.password?.type === 'minLength' && <p className="text-red-700">Password must be at least 6 characters</p>}
                         {errors.password?.type === 'maxLength' && <p className="text-red-700">Password must be less then 20 characters</p>}
                         {errors.password?.type === 'pattern' && <p className="text-red-700">password should contain at least an upper case, lower case and number!</p>}
 
-                        <input className="bg-blue-800 text-white p-2 rounded-2xl hover:bg-blue-600 my-2 w-full" type="submit" />
+                        <input className="bg-[#480607] text-white p-2 rounded-2xl hover:bg-[#4806074D] my-2 w-full" type="submit" />
                         <p className="link link-hover text-center text-base font-semibold my-2">Forgot password?</p>
                         <div>
                             {
