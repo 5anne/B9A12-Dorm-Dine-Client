@@ -9,6 +9,7 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const MealCategory = () => {
 
+    const [mealsData, setMealsData] = useState([]);
     const [breakfast, setBreakfast] = useState([])
     const [lunch, setLunch] = useState([])
     const [dinner, setDinner] = useState([])
@@ -18,15 +19,44 @@ const MealCategory = () => {
         queryKey: ['meals'],
         queryFn: async () => {
             const res = await axiosPublic.get('/allMeals');
+            const slicedData = res.data?.slice(0, 3);
+            setMealsData(slicedData);
             const tempBreakfast = res.data?.filter(meal => meal.category === 'Breakfast');
-            setBreakfast(tempBreakfast);
+            const slicedBreakfast = tempBreakfast?.slice(0, 3);
+            setBreakfast(slicedBreakfast);
             const tempLunch = res.data?.filter(meal => meal.category === 'Lunch');
-            setLunch(tempLunch);
+            const slicedLunch = tempLunch?.slice(0, 3);
+            setLunch(slicedLunch);
             const tempDinner = res.data?.filter(meal => meal.category === 'Dinner');
-            setDinner(tempDinner);
+            const slicedDinner = tempDinner?.slice(0, 3);
+            setDinner(slicedDinner);
             return res.data;
         }
     })
+
+    const handleShowMore = () => {
+        setMealsData(meals);
+        const tempBreakfast = meals?.filter(meal => meal.category === 'Breakfast');
+        setBreakfast(tempBreakfast);
+        const tempLunch = meals?.filter(meal => meal.category === 'Lunch');
+        setLunch(tempLunch);
+        const tempDinner = meals?.filter(meal => meal.category === 'Dinner');
+        setDinner(tempDinner);
+    }
+
+    const handleShowLess = () => {
+        const slicedData = meals?.slice(0, 3);
+        setMealsData(slicedData);
+        const tempBreakfast = meals?.filter(meal => meal.category === 'Breakfast');
+        const slicedBreakfast = tempBreakfast?.slice(0, 3);
+        setBreakfast(slicedBreakfast);
+        const tempLunch = meals?.filter(meal => meal.category === 'Lunch');
+        const slicedLunch = tempLunch?.slice(0, 3);
+        setLunch(slicedLunch);
+        const tempDinner = meals?.filter(meal => meal.category === 'Dinner');
+        const slicedDinner = tempDinner?.slice(0, 3);
+        setDinner(slicedDinner);
+    }
 
     return (
         <section className="mt-28">
@@ -46,7 +76,7 @@ const MealCategory = () => {
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
-                                meals?.map(meal => <div key={meal._id}>
+                                mealsData?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-[#592720] bg-opacity-70 shadow-xl hover:border-none">
                                         <div className="card-body text-gray-100 font-display">
                                             <img className="w-96 h-48" src={meal.image} alt="" />
@@ -61,6 +91,15 @@ const MealCategory = () => {
                                 </div>)
                             }
                         </div>
+                        {
+                            mealsData?.length <= 3 ?
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowMore} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show More...</button>
+                                </div> :
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowLess} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show Less...</button>
+                                </div>
+                        }
                     </TabPanel>
 
                     <TabPanel>
@@ -81,6 +120,15 @@ const MealCategory = () => {
                                 </div>)
                             }
                         </div>
+                        {
+                            breakfast?.length <= 3 ?
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowMore} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show More...</button>
+                                </div> :
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowLess} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show Less...</button>
+                                </div>
+                        }
                     </TabPanel>
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
@@ -100,6 +148,15 @@ const MealCategory = () => {
                                 </div>)
                             }
                         </div>
+                        {
+                            lunch?.length <= 3 ?
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowMore} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show More...</button>
+                                </div> :
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowLess} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show Less...</button>
+                                </div>
+                        }
                     </TabPanel>
                     <TabPanel>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
@@ -119,6 +176,15 @@ const MealCategory = () => {
                                 </div>)
                             }
                         </div>
+                        {
+                            dinner?.length <= 3 ?
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowMore} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show More...</button>
+                                </div> :
+                                <div className="flex justify-center">
+                                    <button onClick={handleShowLess} className="border-2 px-2 py-1 text-teal-900 border-teal-900 hover:font-bold">Show Less...</button>
+                                </div>
+                        }
                     </TabPanel>
                 </Tabs>
             </div>

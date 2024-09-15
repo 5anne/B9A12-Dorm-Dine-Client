@@ -52,15 +52,18 @@ const AllMeals = () => {
     const handleSort = e => {
         const filter = e.target.value;
         if (filter === 'all') {
+            console.log(meals);
             setMealsData(meals);
         }
         else if (filter === 'likes') {
             const sortedData = meals?.sort((a, b) => b.likes - a.likes);
-            setMealsData(sortedData)
+            console.log(sortedData);
+            setMealsData(sortedData);
         }
         else if (filter === 'reviews') {
             const sortedData = meals?.sort((a, b) => b.reviews - a.reviews);
-            setMealsData(sortedData)
+            console.log(sortedData);
+            setMealsData(sortedData);
         }
     }
 
