@@ -6,7 +6,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-import axios from "axios";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
     const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -14,6 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const axiosPublic = useAxiosPublic();
     console.log(errors);
 
     const handleSignIn = (data, e) => {
@@ -38,15 +40,24 @@ const Login = () => {
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-            .then(result => {
+            .then(async (result) => {
                 console.log(result.user);
                 const name = result?.user?.displayName;
                 const email = result?.user?.email;
                 const photo = result?.user?.photoURL;
                 const userInfo = { name, email, photo, userBadge: 'Bronze' };
 
-                axios.post('http://localhost:5000/userInfo', userInfo)
-                    .then(data => console.log(data.data))
+                const response = await axiosPublic.post('/userInfo', userInfo);
+                console.log(response.data.insertedId);
+                if (response.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "User has been created successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
                 navigate(location?.state ? location.state : '/');
             })
             .catch(error => {
@@ -60,8 +71,8 @@ const Login = () => {
                 <title>Dorm Dine ~ Login</title>
             </Helmet>
             <Navbar></Navbar>
-            <div className="pt-48">
-                <div className="flex justify-center bg-red-950 bg-opacity-50 w-1/2 p-8 mx-auto shadow-2xl">
+            <div className="px-4 pt-28 md:pt-48">
+                <div className="flex justify-center bg-red-950 bg-opacity-50 md:w-1/2 p-8 mx-auto shadow-2xl">
 
                     <form onSubmit={handleSubmit(handleSignIn)} className="">
                         <h1 className="text-2xl text-center font-bold">Login Now!</h1> <br />
@@ -81,7 +92,7 @@ const Login = () => {
                         <div>
                             <button onClick={handleGoogleSignIn} className="bg-[#d3d3d3] w-full py-2 text-black font-semibold text-xs flex justify-center gap-2 items-center"><span className="text-xl"><FcGoogle /></span>LOG IN WITH GOOGLE</button>
                         </div>
-                        <p>Do Not Have an Account? Please <Link to="/register" className="hover:underline text-blue-700">Register</Link></p>
+                        <p className="text-sm mt-1">Do Not Have an Account? Please <Link to="/register" className="hover:underline text-blue-700">Register</Link></p>
                     </form>
                 </div>
             </div>

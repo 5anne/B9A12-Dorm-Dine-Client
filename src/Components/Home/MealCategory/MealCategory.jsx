@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SectionTitle from "../DietBlog/SectionTitle";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 
 const MealCategory = () => {
-    const [meals, setMeals] = useState([])
+
     const [breakfast, setBreakfast] = useState([])
     const [lunch, setLunch] = useState([])
     const [dinner, setDinner] = useState([])
+    const axiosPublic = useAxiosPublic();
 
-    useEffect(() => {
-        fetch('http://localhost:5000/allMeals')
-            .then(res => res.json())
-            .then(data => {
-                setMeals(data);
-                const tempBreakfast = meals?.filter(meal => meal.category === 'Breakfast');
-                setBreakfast(tempBreakfast);
-                const tempLunch = meals?.filter(meal => meal.category === 'Lunch');
-                setLunch(tempLunch);
-                const tempDinner = meals?.filter(meal => meal.category === 'Dinner');
-                setDinner(tempDinner);
-            })
-    }, [meals])
+    const { data: meals = [] } = useQuery({
+        queryKey: ['meals'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/allMeals');
+            const tempBreakfast = res.data?.filter(meal => meal.category === 'Breakfast');
+            setBreakfast(tempBreakfast);
+            const tempLunch = res.data?.filter(meal => meal.category === 'Lunch');
+            setLunch(tempLunch);
+            const tempDinner = res.data?.filter(meal => meal.category === 'Dinner');
+            setDinner(tempDinner);
+            return res.data;
+        }
+    })
 
     return (
         <section className="mt-28">

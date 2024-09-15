@@ -4,10 +4,11 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import { FaUser, FaUsers } from "react-icons/fa6";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { MdFastfood, MdFoodBank, MdLogout, MdNoFood, MdOutlineRateReview, MdPayment, MdRateReview } from "react-icons/md";
+import { MdDashboard, MdFastfood, MdFoodBank, MdLogout, MdNoFood, MdOutlineRateReview, MdPayment, MdRateReview } from "react-icons/md";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { GiHotMeal } from "react-icons/gi";
 import { FaHome } from "react-icons/fa";
+import logoImg from "../assets/takeaway_1392728.png";
 
 
 const Dashboard = () => {
@@ -26,15 +27,19 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="flex">
-            <div className="drawer lg:drawer-open w-1/4">
+        <div className="md:flex">
+            <div className="drawer md:drawer-open md:w-1/4">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center justify-center">
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open Dashboard</label>
+                <div className="drawer-content flex items-center justify-around bg-[#800000] bg-opacity-70">
+                    <div className="flex items-center md:hidden">
+                        <img className="w-8 rounded-full" src={logoImg} alt="" />
+                        <a className="btn btn-ghost text-2xl font-display">Dorm Dine</a>
+                    </div>
+                    <label htmlFor="my-drawer-2" className="btn btn-outline hover:bg-slate-500 my-4 drawer-button md:hidden"><MdDashboard></MdDashboard></label>
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-[#800000] bg-opacity-70 text-white">
+                    <ul className="menu p-4 lg:w-[294px] min-h-screen bg-[#800000] bg-opacity-70 text-white">
                         {
                             isAdmin ?
                                 <>
@@ -106,7 +111,6 @@ const Dashboard = () => {
                                 </>
                         }
                     </ul>
-
                 </div>
             </div>
             <div className="w-full bg-[#87624c] bg-opacity-50">

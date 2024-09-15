@@ -36,8 +36,7 @@ const Meals = () => {
 
     const handleFilter = e => {
         const filter = e.target.value;
-        // console.log(filter);
-        // console.log(typeof (parseInt(filter)));
+
         if (filter === 'All') {
             setDisplayMealsData(mealsData);
         }
@@ -73,7 +72,7 @@ const Meals = () => {
                 <title>Dorm Dine ~ Meals</title>
             </Helmet>
             <Navbar></Navbar>
-            <div className="pt-36">
+            <div className="pt-24 px-2 md:pt-36">
                 <form onSubmit={handleSearch} action="">
                     <label className="input input-bordered flex items-center gap-2 md:w-1/2 mx-auto">
                         <input type="text" name="search" className="grow" placeholder="Search By Category: Breakfast, Lunch, Dinner,  etc..." />
@@ -81,7 +80,7 @@ const Meals = () => {
                     </label>
                 </form>
             </div>
-            <div className="flex gap-4 w-20 mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
+            <div className="flex gap-4 w-20 mx-4 md:mx-auto text-gray-500 mt-14 border-2 p-1 border-teal-900">
                 <p>Filter</p>
                 <select onChange={handleFilter} className="text-black border-2 p-1 border-teal-900" name="" id="">
                     <option value="All">By Category</option>
@@ -96,7 +95,7 @@ const Meals = () => {
                     <option value="1501">$1501 - Above</option>
                 </select>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-32">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-10 px-4 md:pt-32">
                 {
                     displayMealsData?.map(mealData => <div key={mealData._id} className="p-10 shadow-2xl rounded-2xl border-2 border-red-300">
                         <div className="flex justify-center"><img className="w-full h-60 rounded-2xl" src={mealData.image} alt="" /></div>

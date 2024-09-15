@@ -11,7 +11,6 @@ import { useState } from "react";
 const AllMeals = () => {
 
     const [mealsData, setMealsData] = useState([]);
-
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
 
@@ -44,7 +43,6 @@ const AllMeals = () => {
                         text: `${meal.title} has been deleted`,
                         icon: "success"
                     });
-
                 }
             }
         }
@@ -53,7 +51,6 @@ const AllMeals = () => {
 
     const handleSort = e => {
         const filter = e.target.value;
-        // console.log(filter);
         if (filter === 'all') {
             setMealsData(meals);
         }
@@ -73,7 +70,7 @@ const AllMeals = () => {
                 subHeading="meals"
                 heading="All Meals"
             ></SectionTitle>
-            <div className="flex flex-col w-9/12 mx-auto">
+            <div className="flex flex-col w-10/12 md:w-9/12 mx-auto">
                 <div className="flex gap-4 text-gray-500 my-8 border-2 p-1 border-teal-900 w-20 mx-auto">
                     <p>Sort</p>
                     <select onChange={handleSort} className="text-black bg-[#b94e48] bg-opacity-30" name="" id="">

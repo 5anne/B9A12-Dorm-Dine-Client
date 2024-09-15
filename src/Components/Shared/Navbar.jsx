@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import logoImg from "../../assets/takeaway_1392728.png";
-import { FaUser } from "react-icons/fa";
+import { FaBars, FaUser } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
 
 
@@ -23,16 +23,22 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/meals">Meals</NavLink>
         <NavLink to="/upcomingMeals">Upcoming Meals</NavLink>
-
     </>
+
     return (
         <div>
-            <div className="navbar fixed z-10 opacity-70 text-white justify-between bg-[#480607]">
-                <div className="">
+            <div className="navbar fixed z-10 opacity-70 text-white justify-between bg-[#480607] w-screen">
+                <div>
                     <img className="w-12 rounded-full" src={logoImg} alt="" />
                     <a className="btn btn-ghost text-2xl font-display">Dorm Dine</a>
                 </div>
-                <div className="gap-6">
+                <div className="dropdown dropdown-bottom dropdown-end md:hidden">
+                    <div tabIndex={0} role="button" className=""><FaBars></FaBars></div>
+                    <ul tabIndex={0} className="dropdown-content menu bg-base-100 text-black rounded-box z-[1] w-60 p-2 shadow">
+                        <li className="text-blue-800"><a>{links}</a></li>
+                    </ul>
+                </div>
+                <div className="hidden md:flex gap-6">
                     {links}
                 </div>
                 <div className="flex-none">

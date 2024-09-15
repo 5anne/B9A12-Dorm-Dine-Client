@@ -18,9 +18,9 @@ const CheckOut = () => {
         <div>
             <Navbar></Navbar>
             <div className="pt-28">
-                <div className="bg-blue-950 w-1/2 mx-auto rounded-xl shadow-2xl p-4 text-white">
-                    <div className="flex gap-8 items-center">
-                        <img className="h-52 rounded-full mt-6" src={badgeData.image} alt="" />
+                <div className="bg-blue-950 md:w-3/4 lg:w-1/2 md:mx-auto mx-4 mb-8 rounded-xl shadow-2xl p-4 text-white">
+                    <div className="md:flex gap-8 items-center">
+                        <div className="flex justify-center"><img className="h-52 rounded-full mt-6" src={badgeData.image} alt="" /></div>
                         <div>
                             <p className="text-end font-extrabold text-5xl">${badgeData.price}</p>
                             <h1 className="flex gap-2 items-center font-bold font-display text-2xl"><IoBookmarksSharp />Features</h1>

@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import Swal from "sweetalert2";
-import axios from "axios";
 
 
 const CheckoutForm = ({ price }) => {
@@ -18,14 +17,14 @@ const CheckoutForm = ({ price }) => {
     console.log(price);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/premiumJson')
+        axiosSecure.get('/premiumJson')
             .then(data => {
                 console.log(data.data);
                 const tempData = data?.data?.find(badgeInfo => badgeInfo.price === price);
                 console.log(tempData);
                 setBadgeData(tempData);
             })
-    }, [price])
+    }, [price, axiosSecure])
 
     useEffect(() => {
         if (price > 0) {
@@ -111,9 +110,8 @@ const CheckoutForm = ({ price }) => {
     };
 
     return (
-        <div className="w-1/2 mx-auto mt-8 shadow-2xl border-2 rounded-2xl p-8 bg-[url('https://i.postimg.cc/4Nt9FZjK/vintage-grunge-blue-concrete-texture-studio-wall-background-with-vignette-1258-28374.jpg')]">
+        <div className="md:w-1/2 md:mx-auto mx-4 mt-8 shadow-2xl border-2 rounded-2xl p-8 bg-[url('https://i.postimg.cc/4Nt9FZjK/vintage-grunge-blue-concrete-texture-studio-wall-background-with-vignette-1258-28374.jpg')]">
             <h1 className="text-center mb-4 text-xl text-gray-200 font-bold border-b-[1px] w-1/2 mx-auto pb-2 border-black border-dashed">Card Info</h1>
-
             <form onSubmit={handleSubmit} action="">
                 <CardElement
                     options={{

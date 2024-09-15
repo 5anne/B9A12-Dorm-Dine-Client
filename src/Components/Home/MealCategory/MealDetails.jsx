@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import Footer from "../../Shared/Footer";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "../../Shared/Navbar";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -8,6 +8,7 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
 
 const MealDetails = () => {
@@ -21,19 +22,24 @@ const MealDetails = () => {
 
     const { _id, title, category, image, description, ingredients, price, rating, post_time, likes, reviews, reviewText, status, admin_name, admin_email } = details;
 
-    useEffect(() => {
-        axiosSecure.get('http://localhost:5000/userInfo')
-            .then(data => {
-                const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
-                setBadgeInfo(tempUserData);
-                if (tempUserData?.userBadge === 'Platinum' || tempUserData?.userBadge === 'Gold' || tempUserData?.userBadge === 'Silver') {
-                    setUsersData(true);
-                }
-                else {
-                    setUsersData(false);
-                }
-            })
-    }, [axiosSecure, users?.email])
+    const { data: badgeData = [] } = useQuery({
+        queryKey: ['badgeData', users?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/userInfo');
+            const tempUserData = res.data?.find(singledata => singledata?.email === users?.email);
+            console.log(tempUserData);
+            setBadgeInfo(tempUserData);
+            if (tempUserData?.userBadge === 'Platinum' || tempUserData?.userBadge === 'Gold' || tempUserData?.userBadge === 'Silver') {
+                setUsersData(true);
+            }
+            else {
+                setUsersData(false);
+            }
+            return res.data;
+        }
+    })
+
+    console.log(badgeData);
 
     const handleReview = async (e) => {
         e.preventDefault();
@@ -76,7 +82,8 @@ const MealDetails = () => {
 
                 const res = await axiosSecure.patch(`/allMeals/${_id}`, upReview);
                 console.log(res.data);
-                const result = await axiosSecure.post('/usersAct', postReview)
+                const result = await axiosSecure.post('/usersAct', postReview);
+                console.log(result.data);
                 if (res.data.modifiedCount > 0 && result.data.insertedId) {
                     location.reload();
                     Swal.fire({

@@ -45,7 +45,6 @@ const ServeMeals = () => {
     console.log(usersEmailData);
 
     const handleServe = async (data) => {
-
         console.log(data);
         const serveStatus = 'served';
         const serveData = {
@@ -93,7 +92,6 @@ const ServeMeals = () => {
     const handleSubmitEmail = e => {
         e.preventDefault();
         const uemail = e.target.useremail.value;
-        console.log(uemail)
         if (uemail) {
             setuseremail(uemail);
         }
@@ -105,9 +103,9 @@ const ServeMeals = () => {
                 subHeading="meals"
                 heading="All Requested Meals"
             ></SectionTitle>
-            <div className="w-9/12 mx-auto">
-                <div className="flex justify-evenly">
-                    <form onSubmit={handleSubmit} className="" action="">
+            <div className="w-10/12 md:w-9/12 mx-auto">
+                <div className="md:flex justify-evenly">
+                    <form onSubmit={handleSubmit} className="mb-4" action="">
                         <label className="input input-bordered flex items-center gap-2">
                             <input type="text" name="username" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
 

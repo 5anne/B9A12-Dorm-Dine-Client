@@ -7,8 +7,11 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
 import { updateProfile } from "firebase/auth";
-import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const Register = () => {
     const { createUser, signInWithGoogle } = useContext(AuthContext);
@@ -16,26 +19,22 @@ const Register = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const axiosPublic = useAxiosPublic();
 
-    console.log(errors);
-    // const userName = watch('name');
-    // const userEmail = watch('email');
-    // const userImage = watch('photo');
-
-    const onSubmit = (data, e) => {
-        console.log(data);
+    const onSubmit = async (data, e) => {
         e.preventDefault();
 
+        const imageFile = { image: data?.photo[0] }
+        const result = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
         const name = data.name;
-        const photo = data.photo;
+        const photo = result.data.data.url;
         const email = data.email;
         const password = data.password;
-        console.log(name);
-        console.log(photo);
-        console.log(email);
-        console.log(password);
-
-
 
         setSuccess('');
 
@@ -48,11 +47,20 @@ const Register = () => {
                     displayName: name,
                     photoURL: photo
                 })
-                    .then(() => {
+                    .then(async () => {
                         const userInfo = { name, email, photo, userBadge: 'Bronze' };
 
-                        axios.post('http://localhost:5000/userInfo', userInfo)
-                            .then(data => console.log(data.data))
+                        const response = await axiosPublic.post('/userInfo', userInfo);
+                        console.log(response.data.insertedId);
+                        if (response.data.insertedId) {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "User has been created successfully!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
                     })
                     .catch(error => console.error(error))
 
@@ -66,23 +74,30 @@ const Register = () => {
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-            .then(result => {
+            .then(async (result) => {
                 console.log(result.user);
                 const name = result?.user?.displayName;
                 const email = result?.user?.email;
                 const photo = result?.user?.photoURL;
                 const userInfo = { name, email, photo, userBadge: 'Bronze' };
 
-                axios.post('http://localhost:5000/userInfo', userInfo)
-                    .then(data => console.log(data.data))
+                const response = await axiosPublic.post('/userInfo', userInfo);
+                console.log(response.data.insertedId);
+                if (response.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "User has been created successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
 
                 navigate(location?.state ? location.state : '/');
             })
             .catch(error => {
                 console.error(error)
             })
-
-
     }
 
 
@@ -92,8 +107,8 @@ const Register = () => {
                 <title>Dorm Dine ~ Register</title>
             </Helmet>
             <Navbar></Navbar>
-            <div className="pt-48 ">
-                <div className="flex justify-center bg-red-950 bg-opacity-50 w-1/2 p-8 mx-auto shadow-2xl">
+            <div className="px-4 pt-28 md:pt-48">
+                <div className="flex justify-center bg-red-950 bg-opacity-50 md:w-1/2 p-8 mx-auto shadow-2xl">
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
                         <h1 className="text-2xl text-center font-bold">Register Now!</h1> <br />
@@ -101,7 +116,7 @@ const Register = () => {
                         <input {...register("name", { required: true })} type="text" placeholder="Name" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.name && <span className="text-red-700">Name is required</span>}
 
-                        <input {...register("photo", { required: true })} type="url" placeholder="https://i.postimg.cc" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
+                        <input {...register("photo", { required: true })} type="file" placeholder="https://i.postimg.cc" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
                         {errors.photo && <span className="text-red-700">photo is required</span>}
 
                         <input {...register("email", { required: true })} type="email" placeholder="Email" className="bg-gray-300 border-2 p-2 border-none my-2 w-full" /> <br />
@@ -123,7 +138,7 @@ const Register = () => {
                         <div>
                             <button onClick={handleGoogleSignIn} className="bg-[#d3d3d3] w-full py-2 text-black font-semibold text-xs flex justify-center gap-2 items-center"><span className="text-xl"><FcGoogle /></span>LOG IN WITH GOOGLE</button>
                         </div>
-                        <p>Already Have an Account? Please <Link to="/login" className="hover:underline text-blue-700 mt-4">Login</Link></p>
+                        <p className="text-sm mt-1">Already Have an Account? Please <Link to="/login" className="hover:underline text-blue-700 mt-4">Login</Link></p>
                     </form>
                 </div>
             </div>

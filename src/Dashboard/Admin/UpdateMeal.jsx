@@ -4,20 +4,32 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const UpdateMeal = () => {
-    const { _id, title, image, ingredients, description, price, rating, post_time, likes, reviews } = useLoaderData();
+    const { _id, title, ingredients, description, price, rating, post_time, likes, reviews } = useLoaderData();
     const { register, handleSubmit } = useForm();
     const { users } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
     const onSubmit = async (data) => {
+
+        const imageFile = { image: data.image[0] }
+        const result = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
         const mealData = {
 
             title: data.title,
             category: data.category,
-            image: data.image,
+            image: result.data.data.url,
             ingredients: data.ingredients,
             description: data.description,
             price: parseFloat(data.price),
@@ -44,11 +56,11 @@ const UpdateMeal = () => {
         }
     }
     return (
-        <div className="flex flex-col pt-16 w-9/12 mx-auto">
-            <h1 className="text-center font-semibold text-4xl border-y-2 border-teal-900 border-dashed py-4 w-96 mx-auto">Update Meal</h1>
+        <div className="flex flex-col pt-16 w-10/12 md:w-9/12 mx-auto">
+            <h1 className="text-center font-semibold md:text-4xl border-y-2 border-teal-900 border-dashed p-6 md:w-96 mx-auto">Update Meal</h1>
             <div className="mt-12">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex justify-center gap-10">
+                    <div className="lg:flex justify-center gap-10">
                         <div>
                             <div className="form-control">
                                 <label className="label">
@@ -72,7 +84,7 @@ const UpdateMeal = () => {
                                 <label className="label">
                                     <span className="label-text">Image <span className="text-red-700">*</span></span>
                                 </label>
-                                <input {...register("image")} type="url" defaultValue={image} className="input input-bordered rounded-none border-teal-900 pt-2" />
+                                <input {...register("image", { required: true })} type="file" className="input input-bordered rounded-none border-teal-900 pt-2" />
                             </div>
 
                             <div className="form-control">

@@ -1,23 +1,27 @@
 import { Link } from "react-router-dom";
 import SectionTitle from "../DietBlog/SectionTitle";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 
 const MemberShip = () => {
-    const [premium, setPremium] = useState([])
-    useEffect(() => {
-        fetch('http://localhost:5000/premiumJson')
-            .then(res => res.json())
-            .then(data => setPremium(data))
-    }, [])
-    console.log(premium);
+    const axiosPublic = useAxiosPublic();
+
+    const { data: premium = [] } = useQuery({
+        queryKey: ['premium'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/premiumJson');
+            return res.data;
+        }
+    })
+
     return (
         <div className="max-w-6xl mx-auto">
             <SectionTitle
                 subHeading="Membership"
                 heading="Our Premium Packages"
             ></SectionTitle>
-            <div className="grid grid-cols-3 gap-8 my-20">
+            <div className="grid md:grid-cols-3 gap-8 mx-12 my-20">
                 {
                     premium?.map(pack =>
                         <Link key={pack.id} to={`/checkout/${pack?.badge}`}>

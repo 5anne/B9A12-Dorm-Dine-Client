@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -6,16 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 
 const AdminProfile = () => {
     const { users } = useContext(AuthContext);
-    const [badgeInfo, setBadgeInfo] = useState([]);
     const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
-        axiosSecure.get('/userInfo')
-            .then(data => {
-                const tempUserData = data.data?.find(singledata => singledata?.email === users?.email);
-                setBadgeInfo(tempUserData);
-            })
-    }, [axiosSecure, users?.email]);
+    const { data: badgeInfo = [] } = useQuery({
+        queryKey: ['badgeInfo', users?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/userInfoEmail/${users?.email}`);
+            return res.data[0];
+        }
+    })
 
     const { data: mealCount = [] } = useQuery({
         queryKey: ['mealCount', users?.email],
@@ -28,7 +27,7 @@ const AdminProfile = () => {
 
     return (
         <div className="py-16">
-            <div className="bg-green-950 bg-opacity-40 shadow-xl p-8 w-1/2 mx-auto">
+            <div className="bg-green-950 bg-opacity-40 shadow-xl p-8 w-3/4 lg:w-1/2 mx-auto">
                 <h1 className="text-center font-semibold text-4xl border-b-2 border-yellow-500 pb-4 w-52 mx-auto">My Profile</h1>
                 <div>
                     <div className="flex justify-center rounded-full my-8">

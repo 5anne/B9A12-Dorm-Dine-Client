@@ -10,6 +10,7 @@ const ManageUsers = () => {
     const [useremail, setuseremail] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const axiosSecure = useAxiosSecure();
+
     const { data: allUsers = [], refetch } = useQuery({
         queryKey: ['allUsers'],
         queryFn: async () => {
@@ -37,6 +38,7 @@ const ManageUsers = () => {
             return res.data;
         }
     })
+
     console.log(usersNameData);
     console.log(usersEmailData);
 
@@ -52,14 +54,12 @@ const ManageUsers = () => {
     const handleSubmitEmail = e => {
         e.preventDefault();
         const uemail = e.target.useremail.value;
-        console.log(uemail)
         if (uemail) {
             setuseremail(uemail);
         }
     }
 
     const handleMakeAdmin = user => {
-        console.log(user);
         axiosSecure.patch(`/userInfo/admin/${user._id}`)
             .then(res => {
                 console.log(res.data)
@@ -82,11 +82,11 @@ const ManageUsers = () => {
                 subHeading="users"
                 heading="All Users"
             ></SectionTitle>
-            <div className="w-9/12 mx-auto">
+            <div className="md:w-9/12 mx-auto">
                 <div className="flex flex-col shadow-xl px-4">
 
-                    <div className="flex justify-around mb-8">
-                        <form onSubmit={handleSubmit} className="" action="">
+                    <div className="lg:flex justify-around mb-8">
+                        <form onSubmit={handleSubmit} className="mb-4" action="">
                             <label className="input input-bordered flex items-center gap-2">
                                 <input type="text" name="username" placeholder="Search by Username" className="bg-gray-300 rounded-lg p-2 border-none my-2 w-full" />
 
@@ -140,7 +140,7 @@ const ManageUsers = () => {
                                             <td>{user.email}</td>
                                             <td>{user.userBadge}</td>
                                             <td>
-                                                {user.role === 'admin' ? <p className="font-bold ml-12">Admin</p> : <button onClick={() => handleMakeAdmin(user)} className="btn bg-[#b94e48] border-none text-gray-200 py-1 bg-opacity-60"><FaUser></FaUser> Make Admin</button>}
+                                                {user.role === 'admin' ? <p className="font-bold ml-12">Admin</p> : <button onClick={() => handleMakeAdmin(user)} className="btn bg-[#b94e48] border-none text-gray-200 px-1 lg:px-4 py-1 bg-opacity-60 text-xs"><FaUser></FaUser> Make Admin</button>}
                                             </td>
                                         </tr>)
                                     }

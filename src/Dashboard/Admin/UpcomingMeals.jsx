@@ -7,6 +7,8 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const UpcomingMeals = () => {
 
@@ -29,7 +31,6 @@ const UpcomingMeals = () => {
 
     const handleSort = e => {
         const filter = e.target.value;
-        console.log(filter);
         if (filter === 'all') {
             setMealsData(meals);
         }
@@ -40,7 +41,6 @@ const UpcomingMeals = () => {
     }
 
     const handlePublish = async (meal) => {
-        console.log(meal)
         const mealData = {
 
             title: meal.title,
@@ -76,12 +76,18 @@ const UpcomingMeals = () => {
     }
 
     const onSubmit = async (data) => {
-        console.log(data);
+        const imageFile = { image: data.image[0] }
+        const result = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
         const mealData = {
 
             title: data.title,
             category: data.category,
-            image: data.image,
+            image: result.data.data.url,
             ingredients: data.ingredients,
             description: data.description,
             price: parseFloat(data.price),
@@ -112,8 +118,8 @@ const UpcomingMeals = () => {
 
 
     return (
-        <div className="w-9/12 mx-auto mt-16">
-            <h1 className="text-center font-semibold text-4xl border-y-2 border-teal-900 border-dashed py-4 w-96 mx-auto">Upcoming Meals</h1>
+        <div className="w-10/12 md:w-9/12 mx-auto pt-8">
+            <h1 className="text-center font-semibold md:text-4xl border-y-2 border-teal-900 border-dashed py-4 md:w-96 mx-auto">Upcoming Meals</h1>
 
             <div className="flex gap-4 w-20 mx-auto text-gray-500 my-8 border-2 p-1 border-teal-900">
                 <p>Sort</p>
@@ -131,11 +137,9 @@ const UpcomingMeals = () => {
                             <th></th>
                             <th>Title</th>
                             <th>Admin</th>
-                            <th>Description</th>
                             <th>Category</th>
                             <th>Likes</th>
-                            <th>Status</th>
-                            <th>Price</th>
+                            <th>Price($)</th>
                             <th>Publish</th>
                         </tr>
                     </thead>
@@ -165,12 +169,10 @@ const UpcomingMeals = () => {
                                     <br />
                                     <span className="badge badge-ghost badge-sm">{meal.admin_email}</span>
                                 </td>
-                                <td>{meal.description}</td>
                                 <td>
                                     {meal.category}
                                 </td>
                                 <td>{meal.likes}</td>
-                                <td>{meal.status}</td>
                                 <td>{meal.price}</td>
                                 <th>
                                     <button onClick={() => handlePublish(meal)} className="btn border-none text-xl bg-[#b94e48] bg-opacity-30 hover:bg-[#b94e48]"><MdPublish /></button>
@@ -188,7 +190,7 @@ const UpcomingMeals = () => {
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost bg-black text-white absolute right-2 top-2">✕</button>
                     </form>
-                    <h1 className="text-center font-semibold text-2xl border-y-2 border-yellow-500 border-dashed py-4 w-96 mx-auto mt-8">Add an Upcoming Meal</h1>
+                    <h1 className="text-center font-semibold md:text-2xl border-y-2 border-yellow-500 border-dashed py-4 md:w-96 mx-auto mt-8">Add an Upcoming Meal</h1>
                     <div className="mt-12">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="">
@@ -215,7 +217,7 @@ const UpcomingMeals = () => {
                                         <label className="label">
                                             <span className="label-text">Image <span className="text-red-700">*</span></span>
                                         </label>
-                                        <input {...register("image", { required: true })} type="url" placeholder="https://i.postimg.cc" className="input input-bordered rounded-none border-teal-900" />
+                                        <input {...register("image", { required: true })} type="file" placeholder="https://i.postimg.cc" className="input input-bordered rounded-none border-teal-900 pt-2" />
                                     </div>
 
                                     <div className="form-control">

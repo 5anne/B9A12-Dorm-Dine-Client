@@ -14,7 +14,6 @@ const AllReviews = () => {
         queryKey: ['reviewData'],
         queryFn: async () => {
             const res = await axiosSecure.get('/usersAct');
-            console.log(res.data);
             return res.data;
         }
     })
@@ -52,7 +51,7 @@ const AllReviews = () => {
                 heading="All Reviews"
             ></SectionTitle>
             <div>
-                <div className="overflow-x-auto w-9/12 mx-auto">
+                <div className="overflow-x-auto w-10/12 md:w-9/12 mx-auto">
                     <table className="table table-xs table-pin-rows table-pin-cols">
                         <thead>
                             <tr className="bg-emerald-950 text-gray-300">
