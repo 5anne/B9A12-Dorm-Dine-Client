@@ -9,6 +9,7 @@ import MemberShip from "./MemberShip/MemberShip";
 
 
 const Home = () => {
+
     return (
         <div className="">
             <Helmet>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SectionTitle from "../DietBlog/SectionTitle";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
@@ -6,14 +6,43 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
-
-const MealCategory = () => {
+const MealCategory = ({ searchedMealsData, value, loading }) => {
+    console.log(searchedMealsData);
+    console.log(loading);
 
     const [mealsData, setMealsData] = useState([]);
-    const [breakfast, setBreakfast] = useState([])
-    const [lunch, setLunch] = useState([])
-    const [dinner, setDinner] = useState([])
+    const [breakfast, setBreakfast] = useState([]);
+    const [lunch, setLunch] = useState([]);
+    const [dinner, setDinner] = useState([]);
     const axiosPublic = useAxiosPublic();
+    const sectionRef = useRef(null);
+    const breakfastRef = useRef(null);
+    const lunchRef = useRef(null);
+
+    useEffect(() => {
+        if (loading && sectionRef.current) {
+            sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+
+            if (value === 'BREAKFAST') {
+                const slicedBreakfast = searchedMealsData?.slice(0, 3);
+                setBreakfast(slicedBreakfast);
+                return;
+            }
+
+            else if (value === 'LUNCH') {
+                const slicedLunch = searchedMealsData?.slice(0, 3);
+                setLunch(slicedLunch);
+                return;
+            }
+
+            else if (value === 'DINNER') {
+                const slicedDinner = searchedMealsData?.slice(0, 3);
+                setDinner(slicedDinner);
+                return;
+            }
+
+        }
+    }, [searchedMealsData, value, loading])
 
     const { data: meals = [] } = useQuery({
         queryKey: ['meals'],
@@ -59,7 +88,7 @@ const MealCategory = () => {
     }
 
     return (
-        <section className="mt-28">
+        <section ref={sectionRef} className="mt-28">
             <SectionTitle
                 subHeading="Category"
                 heading="Signature Food Items"
@@ -102,8 +131,8 @@ const MealCategory = () => {
                         }
                     </TabPanel>
 
-                    <TabPanel>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
+                    <TabPanel >
+                        <div ref={breakfastRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
                                 breakfast?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-[#592720] bg-opacity-70 shadow-xl hover:border-none">
@@ -131,7 +160,7 @@ const MealCategory = () => {
                         }
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
+                        <div ref={lunchRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-8">
                             {
                                 lunch?.map(meal => <div key={meal._id}>
                                     <div className="card border-2 border-green-950 bg-[#592720] bg-opacity-70 shadow-xl hover:border-none">
